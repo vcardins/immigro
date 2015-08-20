@@ -1,0 +1,139 @@
+/* or define path to Font Awesome 3's font folder*/
+@fontAwesomePath:   "../jspm_packages/npm/font-awesome@4.3.0/fonts";
+
+@import (inline) "../jspm_packages/github/twbs/bootstrap@3.3.5/css/bootstrap.css";
+@import (inline) "../jspm_packages/npm/font-awesome@4.3.0/css/font-awesome.css";
+@import (inline) "../jspm_packages/github/CodeSeven/toastr@2.1.1/toastr.css";
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: ~"url('@{fontAwesomePath}/fontawesome-webfont.eot')";
+  src: ~"url('@{fontAwesomePath}/fontawesome-webfont.eot?#iefix')" format('embedded-opentype'),
+    ~"url('@{fontAwesomePath}/fontawesome-webfont.woff')" format('woff'),
+    ~"url('@{fontAwesomePath}/fontawesome-webfont.ttf')" format('truetype'),
+    ~"url('@{fontAwesomePath}/fontawesome-webfont.svg#FontAwesome')" format('svg');
+}
+
+body {  
+  margin: 0;
+  /*
+  padding-top: 43px;
+  background-color: #dadada;
+  background-image: linear-gradient(to bottom, #eee, #bbb);
+  background-repeat: repeat-x;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  */
+}
+
+.page-host {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+section {
+    margin: 0 20px;
+}
+
+.container {
+  .signin {
+    .or{
+      margin-top:100px;
+      text-align:center;
+    }
+  }
+  .panel {
+    margin-top:20px;
+    padding:0;
+  }
+}
+
+.splash {
+  text-align: center;
+  margin: 10% 0 0 0;
+  box-sizing: border-box;
+  .fa-spinner {
+    text-align: center;
+    display: inline-block;
+    font-size: 72px;
+    margin-top: 50px;
+  }
+  .message {
+    font-size: 72px;
+    line-height: 72px;
+    text-shadow: rgba(0, 0, 0, 0.5) 0 0 15px;
+    text-transform: uppercase;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+}
+
+
+.flex-grid {
+  display: flex;
+  &> div {
+    flex: 1;
+    margin: 0 20px 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #fff;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  h2 {
+    margin: -15px -15px 15px -15px;
+    padding: 12px 15px;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+  }
+  li {
+    position: relative;
+    margin: 0 0 10px;
+    padding: 0 0 0 25px;
+    &:before {
+      content: '\f00c';
+      font: normal 16px fontawesome;
+      top: 0;
+      left: 0;
+      color: #999;
+    }
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    th {
+      padding: 10px;
+      font-size: 14px 
+    }
+    tr:nth-child(odd) {
+      background: #f9f9f9;
+    }
+    tr:nth-child(even) {
+      background: #fff;
+    }
+    td {
+      padding: 10px;
+      font-size: 12px;
+      border: 1px solid #ddd;
+    }
+  }
+}
+@import "sidebar.less";
+@import "flickr.less";
+@import "social.less";
+@import "animation.less";
+@import "media.less";
+/*
+@import "navbar.less";
+*/

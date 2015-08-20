@@ -1,0 +1,40 @@
+<template>
+  <section class="au-animate page-content">
+    <h2>${heading}</h2>
+
+    <form role="form" submit.delegate="submit()">
+      <div class="form-group">
+        <label for="fn">First Name</label>
+        <input type="text" value.bind="user.firstName" class="form-control" id="fn" placeholder="first name">
+      </div>
+      <div class="form-group">
+        <label for="ln">Last Name</label>
+        <input type="text" value.bind="user.lastName" class="form-control" id="ln" placeholder="last name">
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <p class="help-block">${user.fullName}</p>
+      </div>
+      <div class="form-group">
+        <label for="formatSelect">Select Format:</label>
+        <select id="formatSelect" ref="formatSelect">
+          <option value="$0,0.00">$0,0.00</option>
+          <option value="$0.0a">$0.0a</option>
+          <option value="0.00000">0.00000</option>
+        </select>
+      </div>
+      <div class="form-group">
+        ${netWorth | numberFormat:formatSelect.value}
+      </div> 
+      <div class="form-group">
+        <label>Date Format:</label>
+        <div>
+          ${currentDate | dateFormat:'M/D/YYYY h:mm:ss a'} <br/>
+          ${currentDate | dateFormat:'MMMM Mo YYYY'} <br/>
+          ${currentDate | dateFormat:'h:mm:ss a'} <br/>
+        </div>          
+      </div>              
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </section>
+</template>
