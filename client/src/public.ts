@@ -1,4 +1,4 @@
-import { Aurelia, autoinject, ObserverLocator } from 'aurelia-framework';
+import { autoinject, ObserverLocator } from 'aurelia-framework';
 import { Router} from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { AuthResult, AuthenticationProvider } from 'core/Providers'
@@ -16,7 +16,6 @@ export class App {
   obsAuth:any;
 
   constructor(
-        private aurelia:Aurelia,
         public router: Router,
         private appRouterConfig: AppRouterConfig,
         private authProvider:AuthenticationProvider,
@@ -29,16 +28,15 @@ export class App {
     this.appRouterConfig = appRouterConfig;
     this.authProvider = authProvider;
     this.ea = ea;
-    this.aurelia = aurelia;
   }
 
   activate(){
-    //this.appRouterConfig.configure();
+    this.appRouterConfig.configure();
 
     let isAuth = this.authProvider.isAuthenticated;
 
     this.sidebarCls = isAuth ? 'open' : '';
-    this.authCls = isAuth ? 'auth' : 'anon';
+    this.authCls = isAuth ? 'auth' : 'anon';  
 
     this.ea.subscribe('router:navigation:complete', (payload:any) => {
         this.activeRoute = payload.instruction.config;
@@ -46,7 +44,6 @@ export class App {
 
     this.ea.subscribe('auth:login:success', (payload:any) => {
       this.logger.success(`${payload.userInfo.firstName}, welcome to Immigro`);
-      this.aurelia.setRoot('app');
       this.authStatusUpdate = payload;
     });
 
@@ -55,7 +52,6 @@ export class App {
     });
 
     this.ea.subscribe('auth:logout:success', (payload:any) => {
-      //this.aurelia.setRoot('public');
       this.authStatusUpdate = payload;
     });
 
@@ -96,10 +92,6 @@ export class App {
 
   get isAuthenticated():boolean{
   	return this.authProvider.isAuthenticated;
-  }
-
-  get accessLevel():boolean{
-    return this.authProvider.accessLevel;
   }
 
 }

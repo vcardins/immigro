@@ -1,1 +1,2 @@
-﻿export * from 'core/auth/AuthorizeStep';
+﻿export * from 'core/auth/authorizeStep';
+export * from 'core/auth/access';

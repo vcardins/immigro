@@ -1,0 +1,7 @@
+<template>
+ <require from="loading-indicator"></require>
+ <loading-indicator loading.bind="router.isNavigating || api.isRequesting"></loading-indicator>
+  <div id="content-wrapper">
+      <router-view></router-view>
+  </div>
+</template>

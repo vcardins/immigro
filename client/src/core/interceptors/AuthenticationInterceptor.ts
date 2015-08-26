@@ -1,31 +1,44 @@
 ﻿import { autoinject } from 'aurelia-framework';
+import { Router, Redirect } from 'aurelia-router';
 import { AuthenticationProvider } from "core/Providers"
 import { Logger } from 'core/Services';
+import { IApplicationSettings } from 'core/Settings';
 
 @autoinject
 export class AuthenticationInterceptor {
 
-    constructor(private authProvider: AuthenticationProvider, private logger:Logger) {
+    constructor(
+        private authProvider: AuthenticationProvider,
+        private router:Router,
+        private appSettings:IApplicationSettings,
+        private logger:Logger
+      ) {
         this.authProvider = authProvider;
         this.logger = logger;
+        this.router = router;
+        this.appSettings = appSettings;
     }
 
     request(data:any) {
-        //console.log('AuthenticationInterceptor => Data', data);        
+        //console.log('AuthenticationInterceptor => Data', data);
     }
-    
+
     responseError(error:any) {
         console.log('AuthenticationInterceptor => Error', error);
-        let message:string = '';
-        if (error.content.error == 'E_VALIDATION') {
-            for(let e in error.content.invalidAttributes) {
-                let attr = error.content.invalidAttributes[e];
-                for(let a in attr) {
-                    message += attr[a].message + '<br>';
-                }
-            }
+        if (error.statusCode === 401) {
+            this.router.navigate(this.appSettings.loginRoute);
         }
-        this.logger.error({message:message, title:`(${error.statusCode}) ${error.statusText}`})
+
+        // let message:string = '';
+        // if (error.content.error == 'E_VALIDATION') {
+        //     for(let e in error.content.invalidAttributes) {
+        //         let attr = error.content.invalidAttributes[e];
+        //         for(let a in attr) {
+        //             message += attr[a].message + '<br>';
+        //         }
+        //     }
+        // }
+        // this.logger.error({message:message, title:`(${error.statusCode}) ${error.statusText}`})
         return;
     }
 }

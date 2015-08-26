@@ -1,8 +1,11 @@
 export class AuthFilterValueConverter  {
-    toView(routes, isAuthenticated){        
-        if(isAuthenticated) {
-            return routes;
-        }
-        return routes.filter(r => !r.config.auth);
+
+    constructor() {
+      //console.log('ops')
+    }
+
+    toView(routes, accessLevel){
+      if (!accessLevel) { return true;}
+      return routes.filter(r => r.config.access.bitMask & accessLevel.bitMask);
     }
 }
