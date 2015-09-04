@@ -10,7 +10,7 @@ LogManager.addAppender(new ConsoleAppender());
 LogManager.setLevel(LogManager.logLevel.info);
 
 export function configure(aurelia: Aurelia) {
-  //let storage = aurelia.container.get(LocalStorageProvider);
+  
   let appSettings = aurelia.container.get(ApplicationSettings);
   appSettings.configure(config);
   let settings = appSettings.instance;
@@ -18,12 +18,19 @@ export function configure(aurelia: Aurelia) {
     .standardConfiguration()
     .plugin('aurelia-animator-css')
     .plugin('toastr')
+    .plugin('aurelia-configuration', config => {
+        config.setEnvironments({
+            development: ['localhost', 'dev.local'],
+            staging: ['staging.website.com', 'test.staging.website.com'],
+            production: ['website.com']
+        });
+    })
     .feature('core/resources')
     .feature('core/auth');
-    //.plugin('charlespockert/aurelia-bs-grid')
-    //.plugin('aurelia-validation', (config) => {
-    //   config.useViewStrategy(ValidateCustomAttributeViewStrategy.TWBootstrapAppendToInput)
-    //})
-  let isAuth:boolean = true;
-  aurelia.start().then(a => a.setRoot('splash')); //'app', document.body
+    // .plugin('aurelia-validation', (config) => {
+    //   //config.useViewStrategy(ValidateCustomAttributeViewStrategy.TWBootstrapAppendToInput)
+    // });
+    //.plugin('charlespockert/aurelia-bs-grid');
+  aurelia.start().then(a => a.setRoot('bootstrapper'));
+
 }

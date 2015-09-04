@@ -1,6 +1,6 @@
 {
-  "backendUrl": "http://localhost:1337",
-  "frontend": {
+  "apiUrl": "http://localhost:9000",
+  "client": {
     "ports": {
       "production": 3000,
       "development": 3001
