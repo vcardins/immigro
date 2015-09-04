@@ -4,7 +4,7 @@ import { Router } from 'aurelia-router';
 import AppRouterConfig from './app.router.config';
 
 @autoinject
-export class Splash {
+export class Bootstrapper {
 
   constructor(private aurelia:Aurelia, private appRouterConfig: AppRouterConfig, private authProvider:AuthenticationProvider) {
     let isAuth = this.authProvider.isAuthenticated;
