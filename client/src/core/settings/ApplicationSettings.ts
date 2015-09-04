@@ -6,13 +6,13 @@ export interface IApiSettings {
   prefix:string;
   contentType:string;
   clientId:string;
-  clientSecret:string;          
+  clientSecret:string;
   loginUrl:string;
   signupUrl:string;
   profileUrl:string;
   unlinkUrl:string;
   unlinkMethod:string;
-  grantType:  string; 
+  grantType:  string;
 }
 
 export interface IApplicationSettings {
@@ -24,9 +24,9 @@ export interface IApplicationSettings {
   year: number
   lockScreenTimeout:number;
   playSounds : boolean;
-  api:IApiSettings; 
+  api:IApiSettings;
   localStorageMode: Enums.LocalStorageTypes,
-  authenticationMode: Enums.AuthenticationTypes,  
+  authenticationMode: Enums.AuthenticationTypes,
   authorizationScope:string;
   isInDebugMode: boolean;
 	httpInterceptor: boolean;
@@ -37,7 +37,7 @@ export interface IApplicationSettings {
 	loginRoute:string;
 	signupRoute:string;
   authHeader:string;
-	authToken:string;  
+	authToken:string;
 	tokenRoot: string;
 	tokenName:string;
 	tokenPrefix:string;
@@ -47,32 +47,32 @@ export interface IApplicationSettings {
 }
 
 export class ApplicationSettings {
-  
+
   _current:IApplicationSettings;
   env:string;
-    
-  configure(incomingConfig:any){    
+
+  configure(incomingConfig:any){
     Utils.merge(this._current, incomingConfig);
-    let api = this._current.api; 
+    let api = this._current.api;
     api.loginUrl = Utils.joinUrl(api.url, api.loginUrl);
     api.signupUrl = Utils.joinUrl(api.url, api.signupUrl);
     api.profileUrl = Utils.joinUrl(api.url, api.profileUrl);
     api.unlinkUrl = Utils.joinUrl(api.url, api.unlinkUrl);
     return this._current;
   };
-  
+
   get instance():IApplicationSettings {
     return this._current;
   };
-  
+
   constructor(){
-   
+
     this.env = (window.location.hostname==='localhost') ? 'dev' : 'production';
-    this._current = {      
+    this._current = {
       title:'',
-      description:'',      
+      description:'',
       name:'',
-      version: '',    
+      version: '',
       year: ((new Date()).getFullYear()),
       playSounds:false,
       lockScreenTimeout:1,            
@@ -83,13 +83,13 @@ export class ApplicationSettings {
         contentType: 'application/json',
         grantType:'password',
         clientId: null,
-        clientSecret: null,          
+        clientSecret: null,
         loginUrl: '/login',
         signupUrl: '/signup',
         profileUrl: '/me',
         unlinkUrl: '/auth/unlink/',
-        unlinkMethod: 'get',
-      },            
+        unlinkMethod: 'get'
+      },
       isInDebugMode:false,
       localStorageMode: Enums.LocalStorageTypes.Local,
       authenticationMode: Enums.AuthenticationTypes.Local,
@@ -98,12 +98,12 @@ export class ApplicationSettings {
       loginOnSignup: true,
       loginRedirect: '',
       logoutRedirect: 'login',
-      signupRedirect: 'login',      
+      signupRedirect: 'login',
       loginRoute: 'login',
       signupRoute: 'signup',
       tokenRoot: '',
       tokenName: 'token',
-      tokenPrefix: '',      
+      tokenPrefix: '',
       authHeader: 'Authorization',
       authToken: 'Bearer',
       withCredentials: true,
@@ -121,7 +121,7 @@ export class ApplicationSettings {
           requiredUrlParams: ['scope'],
           optionalUrlParams: ['display'],
           display: 'popup',
-          type: '2.0',          
+          type: '2.0',
           popupOptions: { width: 452, height: 633 }
         },
         facebook: {
