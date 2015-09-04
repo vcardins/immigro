@@ -5,22 +5,25 @@ import { Logger } from 'core/Services';
 
 @autoinject
 export class Profile{
-	
+
 	profile:UserProfile;
 	heading:string = 'Profile';
-		
+
 	constructor(private authProvider:AuthenticationProvider, private logger:Logger){
 		this.authProvider = authProvider;
-		this.profile = new UserProfile();
+		authProvider.getProfile().then(profile=>{
+			console.log(profile);
+			this.profile = profile;
+		});
 		this.logger = logger;
 	};
-	
+
 	activate(){
 		return this.authProvider.getProfile().then(data=>{
 			this.profile = data;
 		});
 	}
-	
+
 	update():Promise<void>{
 		return this.authProvider.updateProfile(this.profile).then(response=>{
 			this.logger.success('Profile successfully updated');
@@ -29,7 +32,7 @@ export class Profile{
 			this.logger.error(err.message);
 		});
 	};
-	
+
 	link(provider:any){
 		return this.authProvider.authenticate(provider, true, null)
 		/*.then((response)=>{
@@ -54,5 +57,5 @@ export class Profile{
 	}
 	email='';
 	password='';
-	
+
 }

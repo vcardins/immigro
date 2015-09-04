@@ -3,6 +3,7 @@ import { HttpClient } from 'aurelia-http-client';
 import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
 import * as Enums from 'core/Enums';
 import { OAuthService, OpenIdService } from 'core/Services';
+import { UserProfile } from 'core/Models';
 import { LocalStorageProvider } from 'core/providers/LocalStorageProvider';
 import { userRoles, accessLevels } from '../Auth/access';
 
@@ -96,7 +97,7 @@ export class AuthenticationProvider {
                 {
                     var defaultErrorText = 'Warning: Authentication mode not supported. Check ApplicationSettings';
                     console.error(defaultErrorText);
-                    
+
                     authResult.errorText = defaultErrorText;
                     promise = new Promise<AuthResult>((resolve) => {
                         resolve(authResult);
@@ -158,9 +159,9 @@ export class AuthenticationProvider {
                 firstName:u.firstName,
                 lastName:u.lastName,
                 username:u.username,
-                fullName: `${u.firstName} ${u.lastName}`,
                 accessLevel:level
             };
+            //fullName: `${u.firstName} ${u.lastName}`,
         this.localStorageProvider.set(this.userInfoKey, JSON.stringify(val));
     }
 
@@ -185,7 +186,7 @@ export class AuthenticationProvider {
     getProfile():Promise<any> {
         let user = this.localStorageProvider.get(this.userInfoKey);
         return new Promise<any>((resolve) => {
-            resolve(JSON.parse(user));
+            resolve(new UserProfile(JSON.parse(user)));
         });
     }
 

@@ -24,7 +24,6 @@ export class AuthenticationInterceptor {
     }
 
     responseError(error:any) {
-
         console.log('AuthenticationInterceptor => Error', error, message);
         if (error.statusCode === 401) {
           let message = error.content ? error.content.message : '';
