@@ -1,0 +1,24 @@
+
+@jspm: "../../jspm_packages/";
+@npm: "../../node_modules/";
+@import "fonts.less";
+@import "variables.less";
+@import "@{npm}/bootstrap/dist/css/bootstrap.min.css";
+@import "@{jspm}/github/CodeSeven/toastr@v3/src/toastr.less";
+
+/*
+http://zavoloklom.github.io/material-design-iconic-font/icons.html
+https://www.google.com/design/icons/
+ */
+
+body {
+   font-family: @font-family-sans-serif;
+   font-size: 14px;
+   line-height: 20px;
+   font-weight: 400;
+   letter-spacing: .1px;
+   color: rgba(0,0,0,.87);
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   text-rendering: optimizeLegibility;
+}

@@ -2,12 +2,12 @@
  <require from="loading-indicator"></require>
  <loading-indicator loading.bind="router.isNavigating || api.isRequesting"></loading-indicator>
  <div class="hamburg">
-   <div id="page-wrapper" class="${sidebarCls} ${authCls}">
-      <require from='_layout/rdash/side-bar'></require>
+   <div id="page-wrapper" class="${sidebarCls}">
+      <require from='layout/side-bar'></require>
       <side-bar router.bind="router"></side-bar>
-      <require from='_layout/rdash/header-bar'></require>
+      <require from='layout/header-bar'></require>
       <header-bar router.bind="router" pageHeading.bind="pageHeading"></header-bar>
-      <div id="content-wrapper">        
+      <div id="content-wrapper">
           <router-view></router-view>
       </div>
    </div>

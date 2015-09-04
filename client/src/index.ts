@@ -21,9 +21,9 @@ export function configure(aurelia: Aurelia) {
     .feature('core/resources')
     .feature('core/auth');
     //.plugin('charlespockert/aurelia-bs-grid')
-    // .plugin('aurelia-validation', (config) => {
+    //.plugin('aurelia-validation', (config) => {
     //   config.useViewStrategy(ValidateCustomAttributeViewStrategy.TWBootstrapAppendToInput)
-    // })
+    //})
   let isAuth:boolean = true;
   aurelia.start().then(a => a.setRoot('splash')); //'app', document.body
 }

@@ -12,7 +12,7 @@
           <input type="text" placeholder="Search" name="search" value.bind="searchValue" keydown.delegate="search($event)"/>
           <a click.delegate="search()"><i class="fa fa-search"></i></a>
         </li>
-        <li repeat.for="row of router.navigation | authFilter: parent.accessLevel" class="sidebar-list" title="${row.title}">
+        <li repeat.for="row of router.navigation | authFilter" class="sidebar-list" title="${row.title}">
           <a class="menu ${row.isActive ? 'active' : ''}" href.bind="row.href">
             <span>${row.title}</span>
             <i class="menu-icon fa fa-${row.config.icon}"></i>

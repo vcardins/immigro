@@ -20,7 +20,7 @@ export class AuthenticationProvider {
     private tokenName:string;
     private userInfoKey:string;
     private appSettings:IApplicationSettings;
-    private publicUser:any;
+    private publicUser:any = { username: '', role: userRoles.public };
 
     constructor(appSettings: ApplicationSettings, private localStorageProvider: LocalStorageProvider,
         private httpClient:HttpClient, private oAuthService: OAuthService, private openIdService: OpenIdService) {
@@ -31,9 +31,7 @@ export class AuthenticationProvider {
         this.httpClient = httpClient;
 
         this.tokenName = (this.appSettings.tokenPrefix ? `${this.appSettings.tokenPrefix}_` : '') + this.appSettings.tokenName;
-        this.userInfoKey = (this.appSettings.tokenPrefix ? `${this.appSettings.tokenPrefix}_` : '') + 'user' ;
-
-        this.publicUser= userRoles.public;
+        this.userInfoKey = (this.appSettings.tokenPrefix ? `${this.appSettings.tokenPrefix}_` : '') + 'user';
     }
 
     get isAuthenticated(): boolean {
@@ -98,6 +96,7 @@ export class AuthenticationProvider {
                 {
                     var defaultErrorText = 'Warning: Authentication mode not supported. Check ApplicationSettings';
                     console.error(defaultErrorText);
+                    
                     authResult.errorText = defaultErrorText;
                     promise = new Promise<AuthResult>((resolve) => {
                         resolve(authResult);
@@ -169,8 +168,13 @@ export class AuthenticationProvider {
         return this.localStorageProvider.get(this.tokenName);
     }
 
-    get accessLevel(): boolean {
-        return this.user.accessLevel;
+    isAuthorized(accessLevel, role):boolean {
+        role = (role || sessionHandler.authUserRole()) || emptyUser.role;
+        return accessLevel.bitMask & role.bitMask;
+    }
+
+    get accessLevel():any {
+        return this.user.accessLevel || accessLevels.public;
     }
 
     get user(): any {

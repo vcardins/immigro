@@ -4,10 +4,9 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { AuthResult, AuthenticationProvider } from 'core/Providers'
 import { Logger } from 'core/Services';
 import AppRouterConfig from './app.router.config';
-import Layout from './layout';
 
 @autoinject
-export class App {
+export default class Layout {
 
   public sidebarCls:string;
   private authStatusUpdate:boolean;
@@ -23,8 +22,7 @@ export class App {
         private authProvider:AuthenticationProvider,
         private ea: EventAggregator,
         public observerLocator: ObserverLocator,
-        private logger:Logger,
-        private layout:Layout
+        private logger:Logger
     ) {
     this.router = router;
     this.logger = logger;
@@ -32,11 +30,10 @@ export class App {
     this.authProvider = authProvider;
     this.ea = ea;
     this.aurelia = aurelia;
-    this.layout = layout;
   }
 
   activate(){
-    //this.layout.activate();
+    //this.appRouterConfig.configure();
 
     let isAuth = this.authProvider.isAuthenticated;
 
@@ -69,10 +66,13 @@ export class App {
     this.obsAuth.subscribe(this.observeAuthStatus.bind(this));
   }
 
-  observeSidebarState() {}
+  observeSidebarState() {
+
+  }
 
   observeAuthStatus(result:AuthResult) {
     if (!result) { return; }
+
     this.router.navigate(result.redirect);
     this.sidebarCls = result.success ? 'open' : '';
     this.authCls = result.success ? 'auth' : 'anon';
@@ -92,6 +92,14 @@ export class App {
 
   onWindowResize() {
     this.sidebarCls = (window.innerWidth <= 600) ? '' : 'open'; //&& this.sidebarCls == 'open'
+  }
+
+  get isAuthenticated():boolean{
+  	return this.authProvider.isAuthenticated;
+  }
+
+  get accessLevel():boolean{
+    return this.authProvider.accessLevel;
   }
 
 }

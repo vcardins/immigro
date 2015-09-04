@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'view', 'less', 'versions' ]
+2 info using npm@2.11.2
+3 info using node@v0.12.5
+4 silly mapToRegistry name less
+5 silly mapToRegistry using default registry
+6 silly mapToRegistry registry https://registry.npmjs.org/
+7 silly mapToRegistry uri https://registry.npmjs.org/less
+8 verbose request uri https://registry.npmjs.org/less
+9 verbose request no auth needed
+10 info attempt registry request try #1 at 6:56:52 AM
+11 verbose request id 9180200b1eceb6a7
+12 verbose etag "301BPXPWOOGWMUD8BMOZ57NMU"
+13 http request GET https://registry.npmjs.org/less
+14 http 200 https://registry.npmjs.org/less
+15 silly get cb [ 200,
+15 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+15 silly get     etag: '"A3YS23DDKSLLNAS9J7W7C3WHA"',
+15 silly get     'content-type': 'application/json',
+15 silly get     'cache-control': 'max-age=60',
+15 silly get     'content-length': '93822',
+15 silly get     'accept-ranges': 'bytes',
+15 silly get     date: 'Fri, 28 Aug 2015 13:56:53 GMT',
+15 silly get     via: '1.1 varnish',
+15 silly get     age: '57',
+15 silly get     connection: 'close',
+15 silly get     'x-served-by': 'cache-lax1428-LAX',
+15 silly get     'x-cache': 'HIT',
+15 silly get     'x-cache-hits': '1',
+15 silly get     'x-timer': 'S1440770213.333236,VS0,VE0',
+15 silly get     vary: 'Accept' } ]
+16 verbose get saving less to /Users/vcardins/.npm/registry.npmjs.org/less/.cache.json
+17 verbose exit [ 0, true ]
+18 verbose stack Error: write EPIPE
+18 verbose stack     at exports._errnoException (util.js:746:11)
+18 verbose stack     at WriteWrap.afterWrite (net.js:775:14)
+19 verbose cwd /Users/vcardins/Documents/dev/immigro/client
+20 error Darwin 14.5.0
+21 error argv "node" "/usr/local/bin/npm" "view" "less" "versions"
+22 error node v0.12.5
+23 error npm  v2.11.2
+24 error code EPIPE
+25 error errno EPIPE
+26 error syscall write
+27 error write EPIPE
+28 error If you need help, you may report this error at:
+28 error     <https://github.com/npm/npm/issues>
+29 verbose exit [ 1, true ]

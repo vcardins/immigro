@@ -1,11 +1,14 @@
-export class AuthFilterValueConverter  {
+import { AuthResult, AuthenticationProvider } from 'core/Providers';
+import { autoinject } from 'aurelia-framework';
 
-    constructor() {
-      //console.log('ops')
+@autoinject
+export class AuthFilterValueConverter  {
+    userLevel:any;
+    constructor(private authProvider:AuthenticationProvider) {
+      this.userLevel = this.authProvider.accessLevel;
     }
 
-    toView(routes, accessLevel){
-      if (!accessLevel) { return true;}
-      return routes.filter(r => r.config.access.bitMask & accessLevel.bitMask);
+    toView(routes){
+      return routes.filter(r => r.config.access.bitMask & this.userLevel.bitMask);
     }
 }

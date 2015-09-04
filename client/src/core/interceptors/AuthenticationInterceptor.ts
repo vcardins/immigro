@@ -24,9 +24,11 @@ export class AuthenticationInterceptor {
     }
 
     responseError(error:any) {
-        console.log('AuthenticationInterceptor => Error', error);
+
+        console.log('AuthenticationInterceptor => Error', error, message);
         if (error.statusCode === 401) {
-            this.router.navigate(this.appSettings.loginRoute);
+          let message = error.content ? error.content.message : '';
+          this.router.navigate(this.appSettings.loginRoute);
         }
 
         // let message:string = '';
