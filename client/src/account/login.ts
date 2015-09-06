@@ -1,6 +1,6 @@
 import { Aurelia, autoinject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { AuthenticationProvider } from 'core/Providers'
+import { AuthService } from 'core/Services';
 import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
 import { Router } from 'aurelia-router';
 
@@ -17,13 +17,13 @@ export class Login{
 	constructor(
 		appSettings:ApplicationSettings,
 		public ea:EventAggregator,
-		private authProvider:AuthenticationProvider,
+		private authService:AuthService,
 		private aurelia:Aurelia,
 		private router:Router){
 
 		this.appSettings = appSettings.instance;
 		this.signupUrl = this.appSettings.api.signupUrl;
-	
+
 		for (let key in this.appSettings.providers) {
 			let p = this.appSettings.providers[key];
 			this.providers.push({name:p.name, title:p.title});
@@ -31,7 +31,7 @@ export class Login{
 	};
 
 	login():Promise<void>{
-		return this.authProvider.login(this.identifier, this.password).then(response=>{
+		return this.authService.login(this.identifier, this.password).then(response=>{
 				this.aurelia.setRoot('app').then(() => {
 					//this.ea.publish('auth:login:success', response);
 					this.router.navigate('');
@@ -43,7 +43,7 @@ export class Login{
 	}
 
 	authenticate(name:string):Promise<void> {
-		return this.authProvider.authenticate(name, false, null).then((response)=>{
+		return this.authService.authenticate(name, false, null).then((response)=>{
 					console.log("auth response " + response);
 				});
 	}

@@ -1,4 +1,4 @@
-import { buildRoles, buildAccessLevels } from './authHelpers';
+import { buildRoles, buildAccessLevels } from './AuthHelpers';
 
 /*
   List all the roles you wish to use in the app

@@ -29,7 +29,7 @@ export default class {
 				{ route: 'signup',         name: 'signup', 		 moduleId: 'account/signup',       	  nav: false, title:'Signup', icon:'', description:'pencil-square' },
 				{ route: 'login',          name: 'login', 		 moduleId: 'account/login',       	  nav: false, title:'Login', icon:'', description:'' },
 				{ route: 'logout',         name: 'logout', 		 moduleId: 'account/logout',       	  nav: false, title:'Logout', icon:'', description:'' },
-				{ route: 'profile',        name: 'profile', 	 moduleId: 'account/profile',           nav: true, title:'Profile', icon:'user', description:'', access: accessLevels.user },
+				{ route: 'profile',        name: 'profile', 	 moduleId: 'profile/profile',           nav: true, title:'Profile', icon:'user', description:'', access: accessLevels.user },
 				{ route: 'admin',        name: 'admin', 	 moduleId: 'admin/admin',           nav: true, title:'Admin', icon:'user', description:'', access: accessLevels.admin }
   		]);
 			config.mapUnknownRoutes(instruction => {

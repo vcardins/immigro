@@ -2,16 +2,14 @@
  * Created by moshensky on 5/25/15.
  */
  //import {Validation} from 'aurelia-validation';
- 
+
 export class EntityModel {
-  
+
   isInEditMode:boolean = false;
   validation:any; //Validation
   _previousValues:EntityModel;
-    
-  constructor() {
-    
-  }
+
+  constructor() {}
 
   setEditMode(edit:boolean) {
     this.isInEditMode = edit;
@@ -36,7 +34,6 @@ export class EntityModel {
         result[prop] = this[prop];
       }
     }
-
     delete result.isInEditMode;
     delete result.validation;
     delete result._previousValues;

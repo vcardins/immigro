@@ -1,7 +1,7 @@
 import { Aurelia, autoinject, ObserverLocator } from 'aurelia-framework';
 import { Router} from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { AuthResult, AuthenticationProvider } from 'core/Providers'
+import { AuthResult, AuthService } from 'core/Services'
 import { Logger } from 'core/Services';
 import AppRouterConfig from './app.router.config';
 
@@ -19,7 +19,7 @@ export default class Layout {
         private aurelia:Aurelia,
         public router: Router,
         private appRouterConfig: AppRouterConfig,
-        private authProvider:AuthenticationProvider,
+        private authService:AuthService,
         private ea: EventAggregator,
         public observerLocator: ObserverLocator,
         private logger:Logger
@@ -27,7 +27,7 @@ export default class Layout {
     this.router = router;
     this.logger = logger;
     this.appRouterConfig = appRouterConfig;
-    this.authProvider = authProvider;
+    this.authService = authService;
     this.ea = ea;
     this.aurelia = aurelia;
   }
@@ -35,7 +35,7 @@ export default class Layout {
   activate(){
     //this.appRouterConfig.configure();
 
-    let isAuth = this.authProvider.isAuthenticated;
+    let isAuth = this.authService.isAuthenticated;
 
     this.sidebarCls = isAuth ? 'open' : '';
     this.authCls = isAuth ? 'auth' : 'anon';
@@ -95,11 +95,11 @@ export default class Layout {
   }
 
   get isAuthenticated():boolean{
-  	return this.authProvider.isAuthenticated;
+  	return this.authService.isAuthenticated;
   }
 
   get accessLevel():boolean{
-    return this.authProvider.accessLevel;
+    return this.authService.accessLevel;
   }
 
 }

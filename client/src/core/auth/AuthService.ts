@@ -2,10 +2,11 @@
 import { HttpClient } from 'aurelia-http-client';
 import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
 import * as Enums from 'core/Enums';
+import { Utils } from 'core/helpers/Utils';
 import { OAuthService, OpenIdService } from 'core/Services';
-import { UserProfile } from 'core/Models';
-import { LocalStorageProvider } from 'core/providers/LocalStorageProvider';
-import { userRoles, accessLevels } from '../Auth/access';
+import { AccessLevel, UserProfile } from 'core/Models';
+import { LocalStorageProvider } from 'core/providers';
+import { userRoles, accessLevels } from './access';
 
 export class AuthResult {
     success: boolean = false;
@@ -15,7 +16,7 @@ export class AuthResult {
 }
 
 @autoinject
-export class AuthenticationProvider {
+export class AuthService {
 
     private isAuth: boolean = false;
     private tokenName:string;
@@ -147,29 +148,22 @@ export class AuthenticationProvider {
   		// });
   	};
 
-    setToken(token: string): void {
+    setToken(token: string):void {
         this.localStorageProvider.set(this.tokenName, token);
     }
 
     setUser(u: any, level:any): void {
-        let val = {
-                id:u.id,
-                admin:u.admin,
-                email:u.email,
-                firstName:u.firstName,
-                lastName:u.lastName,
-                username:u.username,
-                accessLevel:level
-            };
-            //fullName: `${u.firstName} ${u.lastName}`,
-        this.localStorageProvider.set(this.userInfoKey, JSON.stringify(val));
+      u.accessLevel = level;
+      let obj = Utils.getObjectProperties(u, ['id','admin','email','firstName','lastName','username','accessLevel']);
+      let user = new UserProfile(obj).getOwnProperties();
+      this.localStorageProvider.set(this.userInfoKey, JSON.stringify(user));
     }
 
-    get token(): string {
+    get token():string {
         return this.localStorageProvider.get(this.tokenName);
     }
 
-    isAuthorized(accessLevel, role):boolean {
+    isAuthorized(accessLevel:AccessLevel, role:AccessLevel):boolean {
         role = (role || sessionHandler.authUserRole()) || emptyUser.role;
         return accessLevel.bitMask & role.bitMask;
     }
@@ -178,20 +172,9 @@ export class AuthenticationProvider {
         return this.user.accessLevel || accessLevels.public;
     }
 
-    get user(): any {
+    get user():UserProfile {
         let usr = JSON.parse(this.localStorageProvider.get(this.userInfoKey));
         return usr || this.publicUser;
-    }
-
-    getProfile():Promise<any> {
-        let user = this.localStorageProvider.get(this.userInfoKey);
-        return new Promise<any>((resolve) => {
-            resolve(new UserProfile(JSON.parse(user)));
-        });
-    }
-
-    updateProfile(data:any):Promise<void> {
-        return null;
     }
 
     unlinkProvider(name:string):Promise<void> {

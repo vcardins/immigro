@@ -1,6 +1,6 @@
 import { autoinject } from 'aurelia-framework';
-import { AuthenticationProvider } from 'core/Providers'
-import { UserProfile } from './UserProfile';
+import { AuthService, UserService } from 'core/Services'
+import { UserProfile } from 'core/Models';
 import { Logger } from 'core/Services';
 
 @autoinject
@@ -9,23 +9,17 @@ export class Profile{
 	profile:UserProfile;
 	heading:string = 'Profile';
 
-	constructor(private authProvider:AuthenticationProvider, private logger:Logger){
-		this.authProvider = authProvider;
-		authProvider.getProfile().then(profile=>{
-			console.log(profile);
-			this.profile = profile;
-		});
-		this.logger = logger;
+	constructor(private authService:AuthService, private userService:UserService, private logger:Logger){
 	};
 
 	activate(){
-		return this.authProvider.getProfile().then(data=>{
+		return this.userService.getProfile().then(data=>{
 			this.profile = data;
 		});
 	}
 
 	update():Promise<void>{
-		return this.authProvider.updateProfile(this.profile).then(response=>{
+		return this.userService.updateProfile(this.profile).then(response=>{
 			this.logger.success('Profile successfully updated');
 		})
 		.catch(err=>{
@@ -34,27 +28,29 @@ export class Profile{
 	};
 
 	link(provider:any){
-		return this.authProvider.authenticate(provider, true, null)
+		return this.authService.authenticate(provider, true, null)
 		/*.then((response)=>{
 			console.log("auth response " + response);
 			return this.auth.getMe();
 		})*/
-		.then(()=> this.authProvider.getProfile())
+		.then(()=> this.userService.getProfile())
 		.then(data=>{
 			this.profile = data;
 		});;
 	}
+
 	unlink(provider:any){
-		return this.authProvider.unlinkProvider(provider)
+		return this.authService.unlinkProvider(provider)
 		/*.then((response)=>{
 			console.log("auth response " + response);
 			return this.auth.getMe();
 		})*/
-		.then(()=> this.authProvider.user)
+		.then(()=> this.authService.user)
 		.then(data=>{
 			this.profile = data;
 		});;
 	}
+
 	email='';
 	password='';
 

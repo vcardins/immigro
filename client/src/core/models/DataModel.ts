@@ -63,11 +63,12 @@ export class DataModel<T> {
     find(identifier:any, parameters?:any):Promise<T> {
 
          let self = this;
+         let url = `${this.endpoint}`+(identifier ? `/${identifier}`:'');
          return this.dataProvider
-            .get(`${this.endpoint}/${identifier}`, parameters)
+            .get(url, parameters)
             .then(
               function onSuccess(response) {
-                self.object = response;
+                self.object = Array.isArray(response) ? response[0] : response;
                 return self.object;
               },
               function onError(error) {
@@ -83,18 +84,18 @@ export class DataModel<T> {
         parameters = parameters || {};
         fromCache = !!fromCache;
 
-        if (fromCache) {
-            parameters = self.cache.load.parameters;
-            if (self.objects && self.objects.length) {
-                console.log('Cached Objects: ' + this.endpoint);
-                return new Promise((resolve, reject) => resolve(self.objects));
-            }
-        } else {
-            // Store used parameters
-            self.cache.load = {
-                parameters: parameters
-            };
-        }
+        // if (fromCache) {
+        //     parameters = self.cache.load.parameters;
+        //     if (self.objects && self.objects.length) {
+        //         console.log('Cached Objects: ' + this.endpoint);
+        //         return new Promise((resolve, reject) => resolve(self.objects));
+        //     }
+        // } else {
+        //     // Store used parameters
+        //     self.cache.load = {
+        //         parameters: parameters
+        //     };
+        // }
 
         return this.dataProvider
             .get(self.endpoint, parameters)

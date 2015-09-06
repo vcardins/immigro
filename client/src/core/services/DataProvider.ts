@@ -18,25 +18,26 @@ export interface IConfigRequest {
     method: string;
     headers: any;
     params: any;
-    data: any;  
+    data: any;
 }
 
 @autoinject
 export class DataProvider  {
-   
+
   private configRequest:any;
   private _contentType:string;
   private _isPlainRequest:boolean = false;
-  
-  public isLocal:boolean;  
+  private deferredResult:Promise<any>[] = [];
+
+  public isLocal:boolean;
   public isRequesting:boolean = false;
   appSettings:IApplicationSettings;
-  
+
   constructor(private http:HttpClient, private settings: ApplicationSettings) {
-    this.appSettings = settings.instance; 
-    this.http = http;   
-  } 
-  
+    this.appSettings = settings.instance;
+    this.http = http;
+  }
+
   /**
     * Helper function to get "proper" end point url for sails backend API.
     *
@@ -65,7 +66,7 @@ export class DataProvider  {
     parameters = parameters || {};
     return {params: parameters};
   }
-        
+
   /**
     * Service method to get count of certain end point objects.
     *
@@ -77,15 +78,15 @@ export class DataProvider  {
   public count(route:string, data:Object = undefined) {
     return this.get(route + '/count/', data);
   }
-        
+
   public find(route:string, prop:string, value:any):Promise<any> {
     return this.get(route, 'GET').then(data => {
-      return data.filter(item => {        
-        return item[prop] == value; 
+      return data.filter(item => {
+        return item[prop] == value;
       })[0];
     });
   }
-  
+
   /**
     * Service method to get data from certain end point. This will always return a collection
     * of data.
@@ -94,11 +95,11 @@ export class DataProvider  {
     * @param   {{}}        parameters  Used query parameters
     *
     * @returns {Promise|*}
-    */  
+    */
   public get(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
     return this.request(route, 'GET', data, headers);
   }
-  
+
   /**
     * Service method to get data from certain end point. This will always return a collection
     * of data.
@@ -107,11 +108,11 @@ export class DataProvider  {
     * @param   {{}}        parameters  Used query parameters
     *
     * @returns {Promise|*}
-    */  
+    */
   public getById(route:string, identifier:any, headers:Object = undefined):Promise<any> {
     return this.request(route + '/' + identifier, 'GET', undefined, headers);
   }
-  
+
   /**
     * Service method to create new object to specified end point.
     *
@@ -119,15 +120,15 @@ export class DataProvider  {
     * @param   {{}}        data        Data to update
     *
     * @returns {Promise|*}
-    */ 
+    */
   public create(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
     return this.request(route, 'POST', data, headers);
   }
-  
+
   public patch(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
     return this.request(route, 'PATCH', data, headers);
   }
-  
+
   /**
     * Service method to update specified end point object.
     *
@@ -136,11 +137,11 @@ export class DataProvider  {
     * @param   {{}}        data        Data to update
     *
     * @returns {Promise|*}
-    */    
+    */
   public update(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
     return this.request(route, 'PUT', data, headers);
   }
-  
+
   /**
     * Service method to delete specified object.
     *
@@ -148,20 +149,26 @@ export class DataProvider  {
     * @param   {number}    identifier  Identifier of endpoint object
     *
     * @returns {Promise|*}
-    */  
-  public delete(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {    
+    */
+  public delete(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
     return this.request(route, 'DELETE', data, headers);
   }
-  
+
   public plainRequest(route:string, httpRequestType:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
     this._isPlainRequest = true;
-    return this.request(route, httpRequestType, data, headers); 
+    return this.request(route, httpRequestType, data, headers);
   }
 
-  private request(route:string, httpRequestType:string, data:Object = undefined, headers:Object = undefined):Promise<any> {      
+  private request(route:string, httpRequestType:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
       data = data || {};
-      let req = this._getConfigRequest(route, httpRequestType, data, headers);    
+      let req = this._getConfigRequest(route, httpRequestType, data, headers);
       let p:Promise<any>;
+      let key = req.url.replace(this.appSettings.api.url + this.appSettings.api.prefix, '');
+
+      if (this.deferredResult[key]) {
+        return this.deferredResult[key];
+      }
+
       switch(httpRequestType) {
         case 'GET' : p = this.http.get(req.url); break;
         case 'POST' : p = this.http.post(req.url, data); break;
@@ -169,26 +176,19 @@ export class DataProvider  {
         case 'PATCH' : p = this.http.patch(req.url, data); break;
         case 'DELETE' : p = this.http.delete(req.url); break;
       }
-      // return p.then(response => {
-  		// 	return response ? resolve(response.content) : reject();
-  		// }); 
-      return new Promise<any>((resolve, reject) => {
+      console.log(key);
+      return this.deferredResult[key] = new Promise((resolve, reject) => {
             p.then(result => {
-              if (result)                                         
+              if (result)
                 resolve(result.content)
               else
-                reject(undefined)   
+                reject(undefined)
             });
-        });      
-      // console.log(typeof p);
-     
-      // return p.then(response => {
-  		// 	return response.content;
-  		// }); 
+        });
   }
 
   private _getConfigRequest(route:string, httpRequestType:string, data:any, headers:any):IConfigRequest {
-            
+
       var configRequest = {
           url: this._urlCompile(route, data, true),
           method: httpRequestType,
@@ -196,7 +196,7 @@ export class DataProvider  {
           params: {},
           data:{}
       };
-       
+
       if (typeof (data) === 'object' && data.constructor.name === 'FormData') {
           configRequest.headers = { 'Content-Type': undefined };
       }
@@ -209,10 +209,10 @@ export class DataProvider  {
               configRequest.data = data;
           }
       }
-      
+
       return configRequest;
   }
-  
+
   private _serialize(obj:any, prefix:string):string {
     let queryString:string[] = [];
     for (let p in obj) {
@@ -222,7 +222,7 @@ export class DataProvider  {
     }
     return queryString.join('&');
   }
-  
+
   private _urlCompile(url:string, parameters:any, isReplace:boolean):string {
       if (!url) {
           return;
@@ -240,8 +240,8 @@ export class DataProvider  {
                   delete parameters[name];
               }
           }
-      }      
-      let result = this.appSettings.api.url + this.appSettings.api.prefix + url; //(this._isPlainRequest ? this.apiUrl.replace('api/','') : this.apiUrl) + url;      
+      }
+      let result = this.appSettings.api.url + this.appSettings.api.prefix + url; //(this._isPlainRequest ? this.apiUrl.replace('api/','') : this.apiUrl) + url;
       this._isPlainRequest = false;
       return result;
     }

@@ -1,6 +1,6 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { Router, Redirect } from 'aurelia-router';
-import { AuthenticationProvider } from "core/Providers"
+import { AuthService } from "core/Services";
 import { Logger } from 'core/Services';
 import { IApplicationSettings } from 'core/Settings';
 
@@ -8,12 +8,12 @@ import { IApplicationSettings } from 'core/Settings';
 export class AuthenticationInterceptor {
 
     constructor(
-        private authProvider: AuthenticationProvider,
+        private authService: AuthService,
         private router:Router,
         private appSettings:IApplicationSettings,
         private logger:Logger
       ) {
-        this.authProvider = authProvider;
+        this.authService = authService;
         this.logger = logger;
         this.router = router;
         this.appSettings = appSettings;

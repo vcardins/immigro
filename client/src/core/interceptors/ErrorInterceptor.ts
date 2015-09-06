@@ -1,12 +1,12 @@
 ﻿import { autoinject } from 'aurelia-framework';
-import { AuthenticationProvider } from "core/Providers"
+import { AuthService } from "core/Services"
 
 @autoinject
 export class ErrorInterceptor {
-    authProvider: AuthenticationProvider;
-    
-    constructor(authProvider: AuthenticationProvider) {
-        this.authProvider = authProvider;
+    authService: AuthService;
+
+    constructor(authService: AuthService) {
+        this.authService = authService;
     }
 
     responseError(error) {

@@ -1,7 +1,6 @@
 import { Aurelia, bindable, autoinject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { AuthResult, AuthenticationProvider } from 'core/Providers'
-//import { Router } from 'aurelia-router';
+import { AuthResult, AuthService } from 'core/Services';
 
 @autoinject
 export class SideBar {
@@ -13,7 +12,7 @@ export class SideBar {
 
   @bindable public router:any = null;
 
-  constructor(private authProvider:AuthenticationProvider, public ea:EventAggregator, private aurelia:Aurelia){
+  constructor(private authService:AuthService, public ea:EventAggregator, private aurelia:Aurelia){
     this.heading = 'Aurelia';
   }
 
@@ -32,7 +31,7 @@ export class SideBar {
   }
 
   logout():Promise<void>{
-      return this.authProvider.logout().then(response=>{
+      return this.authService.logout().then(response=>{
           this.aurelia.setRoot('public').then(() => {
             this.router.navigate('login');
             //this.ea.publish('auth:logout:success', response);

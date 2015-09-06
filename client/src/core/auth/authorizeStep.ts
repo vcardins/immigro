@@ -1,6 +1,6 @@
 import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, Redirect } from 'aurelia-router';
-import { AuthenticationProvider } from 'core/Providers'
+import { AuthService } from 'core/Services'
 import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
 import { Logger } from 'core/Services';
 import { userRoles, accessLevels } from './access';
@@ -14,7 +14,7 @@ export class AuthorizeStep {
   private appSettings:IApplicationSettings;
   private accessLevel:any;
 
-  constructor(private authProvider:AuthenticationProvider, appSettings: ApplicationSettings, private logger:Logger){
+  constructor(private authService:AuthService, appSettings: ApplicationSettings, private logger:Logger){
     this.appSettings = appSettings.instance;
   }
 
@@ -26,9 +26,9 @@ export class AuthorizeStep {
    */
   run(routingContext, next) {
 
-    let isAuthenticated = this.authProvider.isAuthenticated;
+    let isAuthenticated = this.authService.isAuthenticated;
     let route = routingContext.nextInstruction.config;
-    let level = this.authProvider.accessLevel;
+    let level = this.authService.accessLevel;
     let routeBitMask = route.access ? route.access.bitMask : accessLevels.public.bitMask;
 
     if (!isAuthenticated && (routeBitMask > level.bitMask)) {

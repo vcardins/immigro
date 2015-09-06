@@ -1,11 +1,11 @@
-import { AuthResult, AuthenticationProvider } from 'core/Providers';
+import { AuthResult, AuthService } from 'core/Services';
 import { autoinject } from 'aurelia-framework';
 
 @autoinject
 export class AuthFilterValueConverter  {
     userLevel:any;
-    constructor(private authProvider:AuthenticationProvider) {
-      this.userLevel = this.authProvider.accessLevel;
+    constructor(private authService:AuthService) {
+      this.userLevel = this.authService.accessLevel;
     }
 
     toView(routes){
