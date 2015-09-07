@@ -28,6 +28,7 @@ export function configure(aurelia: Aurelia) {
     })
     .feature('core/resources')
     .feature('core/auth');
+    //.plugin('charlespockert/aurelia-bs-grid');
     // .plugin('aurelia-validation', (config) => {
     //   //config.useViewStrategy(ValidateCustomAttributeViewStrategy.TWBootstrapAppendToInput)
     // });
