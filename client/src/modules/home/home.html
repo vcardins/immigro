@@ -2,11 +2,6 @@
   <section class="au-animate page-content">
     <h1>${settings.title}</h1>
     <h4>${settings.description}</h4>
-    <ul class="list-group">
-      <li repeat.for="author of authors" class="list-group-item ${author.id === $parent.selectedId ? 'active' : ''}">
-          <h4 class="list-group-item-heading">${author.name}</h4>
-          <pre class="list-group-item-text">${author.description}</pre>
-        </li>
-    </ul>
+    
   </section>
 </template>

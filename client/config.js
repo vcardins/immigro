@@ -16,6 +16,7 @@ System.config({
   },
 
   map: {
+    "aurelia-sails-socket-client": "github:Mordred/aurelia-sails-socket-client@0.6.0",
     "aurelia-animator-css": "github:aurelia/animator-css@0.16.0",
     "aurelia-binding": "github:aurelia/binding@0.9.0",
     "aurelia-bootstrapper": "github:aurelia/bootstrapper@0.17.0",
@@ -63,6 +64,11 @@ System.config({
     "smajl/bootstrap": "github:smajl/bootstrap@master",
     "socket.io-client": "github:socketio/socket.io-client@1.3.6",
     "toastr": "github:CodeSeven/toastr@2.1.2",
+    "github:Mordred/aurelia-sails-socket-client@0.6.0": {
+      "aurelia-path": "github:aurelia/path@0.8.1",
+      "core-js": "github:zloirock/core-js@1.1.4",
+      "sails.io.js": "github:balderdashy/sails.io.js@0.11.6"
+    },
     "github:aurelia/animator-css@0.16.0": {
       "aurelia-metadata": "github:aurelia/metadata@0.8.0",
       "aurelia-templating": "github:aurelia/templating@0.15.1"

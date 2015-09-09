@@ -24,6 +24,7 @@ export default class {
 				{ route: 'child-router',   name: 'child-router', moduleId: './modules/child-router/child-router', nav: true, title:'Child Router', access: accessLevels.user, icon:'cubes', description:'' },
 				{ route: 'links',   	   name: 'links', 		 moduleId: 'modules/links/links', 			  nav: true, title:'Links', access: accessLevels.user, icon:'chain', description:'' },
 				{ route: 'contacts',  	   name: 'contacts', 	 moduleId: './modules/contacts/contacts', 	      nav: true, title:'Contacts', access: accessLevels.user, icon:'users', description:'' },
+				{ route: 'bookstore',  	   name: 'bookstore', 	 moduleId: './modules/bookstore/bookstore', 	      nav: true, title:'Bookstore', access: accessLevels.user, icon:'book', description:'' },				
 				// //{ route: 'converters',     name: 'converters', 	 moduleId: './converters/converters', 	  nav: true, title:'Converters', auth:true, icon:'users', description:'' },
 				{ route: 'users',          name: 'users',        moduleId: 'modules/users/users',        		  nav: true, title:'Github Users', access: accessLevels.user, icon:'users', description:''  },
 				{ route: 'signup',         name: 'signup', 		 moduleId: 'account/signup',       	  nav: false, title:'Signup', icon:'', description:'pencil-square' },

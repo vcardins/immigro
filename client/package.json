@@ -57,6 +57,7 @@
   },
   "jspm": {
     "dependencies": {
+      "Mordred/aurelia-sails-socket-client": "github:Mordred/aurelia-sails-socket-client@^0.6.0",
       "aurelia-animator-css": "github:aurelia/animator-css@^0.16.0",
       "aurelia-binding": "github:aurelia/binding@^0.9.0",
       "aurelia-bootstrapper": "github:aurelia/bootstrapper@^0.17.0",

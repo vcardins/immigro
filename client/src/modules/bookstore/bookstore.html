@@ -1,0 +1,10 @@
+<template>
+  <section class="au-animate page-content">    
+    <ul class="list-group">
+      <li repeat.for="author of authors" class="list-group-item ${author.id === $parent.selectedId ? 'active' : ''}">
+          <h4 class="list-group-item-heading">${author.name}</h4>
+          <pre class="list-group-item-text">${author.description}</pre>
+        </li>
+    </ul>
+  </section>
+</template>

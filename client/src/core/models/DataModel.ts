@@ -84,18 +84,18 @@ export class DataModel<T> {
         parameters = parameters || {};
         fromCache = !!fromCache;
 
-        // if (fromCache) {
-        //     parameters = self.cache.load.parameters;
-        //     if (self.objects && self.objects.length) {
-        //         console.log('Cached Objects: ' + this.endpoint);
-        //         return new Promise((resolve, reject) => resolve(self.objects));
-        //     }
-        // } else {
-        //     // Store used parameters
-        //     self.cache.load = {
-        //         parameters: parameters
-        //     };
-        // }
+        if (fromCache) {
+            parameters = self.cache.load.parameters;
+            if (self.objects && self.objects.length) {
+                console.log('Cached Objects: ' + this.endpoint);
+                return new Promise((resolve, reject) => resolve(self.objects));
+            }
+        } else {
+            // Store used parameters
+            self.cache.load = {
+                parameters: parameters
+            };
+        }
 
         return this.dataProvider
             .get(self.endpoint, parameters)
