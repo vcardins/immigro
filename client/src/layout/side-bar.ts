@@ -1,19 +1,21 @@
 import { Aurelia, bindable, autoinject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { AuthResult, AuthService } from 'core/Services';
+import { userRoles, accessLevels } from 'core/Auth';
 
 @autoinject
 export class SideBar {
 
   heading:string;
   parent:any;
-  ENTER:number  = 13;
+  ENTER:number = 13;
   searchValue:string;
 
   @bindable public router:any = null;
 
   constructor(private authService:AuthService, public ea:EventAggregator, private aurelia:Aurelia){
     this.heading = 'Aurelia';
+    this.accessLevels = accessLevels;
   }
 
   bind( bindingContext:any ) {

@@ -26,12 +26,12 @@ export default class {
 				{ route: 'contacts',  	   name: 'contacts', 	 moduleId: './modules/contacts/contacts', 	      nav: true, title:'Contacts', access: accessLevels.user, icon:'group-work', description:'' },
 				{ route: 'bookstore',  	   name: 'bookstore', 	 moduleId: './modules/bookstore/bookstore', 	      nav: true, title:'Bookstore', access: accessLevels.user, icon:'book', description:'' },
 				// //{ route: 'converters',     name: 'converters', 	 moduleId: './converters/converters', 	  nav: true, title:'Converters', auth:true, icon:'users', description:'' },
-				{ route: 'users',          name: 'users',        moduleId: 'modules/users/users',        		  nav: true, title:'Github Users', access: accessLevels.user, icon:'github', description:''  },
+				{ route: 'users',          name: 'users',        moduleId: 'modules/users/users',   nav: true, title:'Github Users', access: accessLevels.user, icon:'github', description:''  },
 				{ route: 'signup',         name: 'signup', 		 moduleId: 'account/signup',       	  nav: false, title:'Signup', icon:'', description:'pencil-square' },
 				{ route: 'login',          name: 'login', 		 moduleId: 'account/login',       	  nav: false, title:'Login', icon:'', description:'' },
 				{ route: 'logout',         name: 'logout', 		 moduleId: 'account/logout',       	  nav: false, title:'Logout', icon:'', description:'' },
-				{ route: 'profile',        name: 'profile', 	 moduleId: 'profile/profile',           nav: true, title:'Profile', icon:'male', description:'', access: accessLevels.user },
-				{ route: 'admin',        name: 'admin', 	 moduleId: 'admin/admin',           nav: true, title:'Admin', icon:'shield-security', description:'', access: accessLevels.admin }
+				{ route: 'profile',        name: 'profile', 	 moduleId: 'profile/profile',         nav: false, title:'Profile', icon:'male', description:'', access: accessLevels.user },
+				{ route: 'admin',        name: 'admin', 	 moduleId: 'admin/admin',           			nav: true, title:'Admin', icon:'shield-security', description:'', access: accessLevels.admin }
   		]);
 			config.mapUnknownRoutes(instruction => {
 			   self.router.navigate('login');

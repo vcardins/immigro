@@ -35,7 +35,7 @@ export class ErrorInterceptor {
         }
 
         return new Promise((response,reject)=>{
-          reject({ error:err.message);
+          reject({ error:err.message});
         });
     }
 
