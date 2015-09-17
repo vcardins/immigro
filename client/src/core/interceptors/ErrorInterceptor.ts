@@ -1,5 +1,6 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { Logger, AuthService } from "core/Services";
+import { IApplicationSettings } from "core/Settings";
 import { Router, Redirect } from 'aurelia-router';
 
 @autoinject
@@ -8,26 +9,34 @@ export class ErrorInterceptor {
     constructor(private authService: AuthService,
                 private router:Router,
                 private appSettings:IApplicationSettings,
-                private logger:Loger) {
+                private logger:Logger) {
     }
 
     responseError(error) {
+
+        let err:any = { message:'', title:''};
         if (error.statusCode == 401) {
-          let message = error.content ? error.content.message : '';
+          err.message = error.content ? error.content.message : '';
+          err.title = `(${error.statusCode}) ${error.statusText}`;
           this.router.navigate(this.appSettings.loginRoute);
-          console.log(message, this.appSettings.loginRoute)
+        } else {
+          if (error.content.error == 'E_VALIDATION') {
+              err.title = `Validation Error`;
+              for(let e in error.content.invalidAttributes) {
+                  let attr = error.content.invalidAttributes[e];
+                  for(let a in attr) {
+                      err.message += attr[a].message + '<br>';
+                  }
+              }
+          }
         }
-        // let message:string = '';
-        // if (error.content.error == 'E_VALIDATION') {
-        //     for(let e in error.content.invalidAttributes) {
-        //         let attr = error.content.invalidAttributes[e];
-        //         for(let a in attr) {
-        //             message += attr[a].message + '<br>';
-        //         }
-        //     }
-        // }
-        // this.logger.error({message:message, title:`(${error.statusCode}) ${error.statusText}`})
-        return;
+        if (err.message.length) {
+          this.logger.error(err);
+        }
+
+        return new Promise((response,reject)=>{
+          reject({ error:err.message);
+        });
     }
 
 }

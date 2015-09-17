@@ -1,3 +1,5 @@
+import { abstract } from 'core/Helpers';
+
 @abstract()
 class Abstract {
   @abstract()

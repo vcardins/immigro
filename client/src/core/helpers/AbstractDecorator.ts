@@ -1,5 +1,5 @@
 export function abstract() {
-  return (cls, prop, descriptor) => {
+  return (cls:any, prop:any, descriptor:any) => {
     if (prop === undefined) {
       return class Abstract extends cls {
         constructor(...args) {

@@ -3,12 +3,11 @@ import { autoinject } from 'aurelia-framework';
 
 @autoinject
 export class AuthFilterValueConverter  {
-    userLevel:any;
-    constructor(private authService:AuthService) {
-      this.userLevel = this.authService.accessLevel;
-    }
+
+    constructor(private authService:AuthService) {}
 
     toView(routes){
-      return routes.filter(r => r.config.access.bitMask & this.userLevel.bitMask);
+      return routes.filter(r => this.authService.isAuthorized(r.config.access));
     }
+    
 }

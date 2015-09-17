@@ -5,7 +5,7 @@ import { buildRoles, buildAccessLevels } from './AuthHelpers';
   You have a max of 31 before the bit shift pushes the accompanying integer out of
   the memory footprint for an integer
  */
-const roles = [
+const roles:any = [
   'banned',
   'public',
   'user',
@@ -19,12 +19,12 @@ const roles = [
   specifies what user roles have access to that access level. E.g. users with user role
   'user' and 'admin' have access to the access level 'user'.
  */
-const levels = {
+const levels:any = {
   'public': '*',
   'anon': ['public'],
   'user': ['user', 'admin'],
   'admin': ['admin']
 };
 
-export const userRoles = buildRoles(roles);
-export const accessLevels = buildAccessLevels(levels, userRoles);
+export const userRoles:any = buildRoles(roles);
+export const accessLevels:any = buildAccessLevels(levels, userRoles);

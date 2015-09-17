@@ -1,6 +1,7 @@
 var path = require('path');
 
 var appRoot = 'src/';
+var assetsRoot = 'assets/';
 var outputRoot = 'dist/';
 
 module.exports = {
@@ -8,7 +9,11 @@ module.exports = {
   source: appRoot + '**/*.ts',
   typings: "typings/**/*.d.ts",
   html: appRoot + '**/*.html',
-  style: appRoot + 'layout/main.less',
+  style: appRoot + 'layout/styles/index.less',
+  assets: assetsRoot,
+  fonts: ['node_modules/material-design-iconic-font/dist/fonts/**/*.*', 'node_modules/font-awesome/fonts/**/*.*', assetsRoot + '/fonts/**/*.*'],
+  fontStyle: ['node_modules/material-design-iconic-font/less/material-design-iconic-font.less'],
+  images: assetsRoot + '/images/**/*.*',
   output: outputRoot,
   sourceMapRelativePath: '../' + appRoot,
   doc:'./doc',

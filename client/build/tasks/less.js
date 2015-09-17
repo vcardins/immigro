@@ -9,5 +9,5 @@ gulp.task('less', function() {
     .pipe(less({
       plugins: [new autoprefix( { browsers: ["last 3 versions"] } ), new cleancss( { advanced: true} )]
     }))
-    .pipe(gulp.dest(paths.output))
+    .pipe(gulp.dest(paths.output + 'styles'))
 });

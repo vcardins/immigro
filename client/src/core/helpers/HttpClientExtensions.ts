@@ -1,10 +1,9 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { HttpClient, RequestBuilder } from 'aurelia-http-client';
 import { Router } from 'aurelia-router';
-import { AuthService } from 'core/Services';
+import { AuthService, Logger } from 'core/Services';
 import { AuthenticationInterceptor, ErrorInterceptor } from 'core/Interceptors';
 import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
-import { Logger } from 'core/Services';
 
 @autoinject
 export class HttpClientExtensions {

@@ -1,4 +1,4 @@
-import { inject, utoinject } from 'aurelia-framework';
+import { inject, autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { SailsSocketClient } from 'aurelia-sails-socket-client';
 import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
@@ -22,8 +22,8 @@ export interface IConfigRequest {
     data: any;
 }
 
-//@autoinject
-@inject(HttpClient, SailsSocketClient, ApplicationSettings)
+@autoinject
+//@inject(HttpClient, SailsSocketClient, ApplicationSettings)
 export class DataProvider  {
 
   private configRequest:any;
@@ -79,7 +79,7 @@ export class DataProvider  {
 
   public find(route:string, prop:string, value:any):Promise<any> {
     return this.get(route, 'GET').then(data => {
-      return data.filter(item => {
+      return data.filter((item:any) => {
         return item[prop] == value;
       })[0];
     });
@@ -119,7 +119,7 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-  public create(route:string, data:Object = undefined, headers:Object = undefined):Promise<any> {
+  public create(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     return this.request(route, 'POST', data, headers, anonymous);
   }
 
@@ -171,8 +171,10 @@ export class DataProvider  {
         return this.deferredResult[key];
       }
 
-      let p:Promise<any> = (<any>this.http.createRequest(req.url));
-      if (!anonymous) { p = p.withToken(); }
+      let p:any = this.http.createRequest(req.url);
+      if (!anonymous) {
+        p = p.withToken();
+      }
 
       switch(httpRequestType) {
         case 'GET' : p = p.asGet(); break;

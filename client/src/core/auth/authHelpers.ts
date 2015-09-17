@@ -27,8 +27,8 @@ export class AccessDeniedException {
  It starts off with "1" and shifts the bit to the left for each element in the
  roles array parameter
  */
-export function buildRoles(roles:any) {
-  let bitMask = '01';
+export function buildRoles(roles:any):any {
+  let bitMask:string = '01';
 
   if (roles.length > 31) {
     console.log(
@@ -39,7 +39,7 @@ export function buildRoles(roles:any) {
 
   // dbg
   const userRoles = _.reduce(roles, (result, role) => {
-    const intCode = parseInt(bitMask, 2);
+    const intCode:number = parseInt(bitMask, 2);
     result[role] = {
       bitMask: intCode,
       title: role
@@ -55,7 +55,7 @@ export function buildRoles(roles:any) {
  This method builds access level bit masks based on the accessLevelDeclaration parameter which must
  contain an array for each access level containing the allowed user roles.
  */
-export function buildAccessLevels(accessLevelDeclarations:any, userRoles:any) {
+export function buildAccessLevels(accessLevelDeclarations:any, userRoles:any):any {
 
   /*
     Zero step - transform
@@ -101,7 +101,7 @@ export function buildAccessLevels(accessLevelDeclarations:any, userRoles:any) {
     .reduce((result, { level, name }) => { // eslint-disable-line no-shadow
       const levelName = name;
       const levelsArr = level;
-      const resultBitMask = _.reduce(levelsArr, (resultBitMask, roleName) => { // eslint-disable-line no-shadow
+      const resultBitMask = _.reduce((<any>levelsArr), (resultBitMask:number, roleName:string) => { // eslint-disable-line no-shadow
 
         if (userRoles.hasOwnProperty(roleName) !== true) {
           console.log(

@@ -3,3 +3,4 @@ export * from 'core/helpers/HttpClientExtensions';
 export * from 'core/helpers/Utils';
 export * from 'core/helpers/Sorter';
 export * from 'core/helpers/ObjectConstructor';
+export * from 'core/helpers/AbstractDecorator';

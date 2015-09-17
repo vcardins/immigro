@@ -168,7 +168,7 @@ export class AuthService {
     }
 
     isAuthorized(accessLevel:AccessLevel, role:AccessLevel):boolean {
-        role = (role || sessionHandler.authUserRole()) || emptyUser.role;
+        role = (role || this.user.accessLevel) || this.publicUser.role;
         return accessLevel.bitMask & role.bitMask;
     }
 

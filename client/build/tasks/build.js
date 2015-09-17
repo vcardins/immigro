@@ -66,7 +66,7 @@ function index() {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-ts', 'build-html', 'less', 'less-versions'],
+    ['build-ts', 'build-html', 'less', 'less-versions', 'assets'],
     callback
   );
 });

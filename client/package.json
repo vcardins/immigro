@@ -51,7 +51,7 @@
     "object.assign": "^1.0.3",
     "require-dir": "^0.1.0",
     "run-sequence": "^1.0.2",
-    "typescript": "^1.6.0-dev.20150907",
+    "typescript": "^1.7.0-dev.20150916",
     "vinyl-paths": "^1.0.0",
     "yargs": "^2.1.1"
   },
@@ -120,6 +120,8 @@
   },
   "dependencies": {
     "bluebird": "^2.9.34",
+    "gulp-load-plugins": "^0.10.0",
+    "material-design-iconic-font": "^2.1.2",
     "connect-history-api-fallback": "^1.1.0",
     "jspm": "^0.16.0",
     "node-uuid": "^1.4.3"

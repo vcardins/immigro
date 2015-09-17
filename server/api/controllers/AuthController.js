@@ -89,7 +89,7 @@ var AuthController = {
 
           response.json(200, {
             user: user,
-            accessLevel:{title:'admin', bitMask:8},
+            accessLevel:{title: user.admin ? 'admin' : 'user', bitMask:user.admin ? 8 : 4},
             token: sails.services['token'].issue(_.isObject(user.id) ? JSON.stringify(user.id) : user.id)
           });
         }
