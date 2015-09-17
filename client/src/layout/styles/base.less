@@ -83,16 +83,14 @@ img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
     margin-bottom: 0;
 }
 #page-wrapper {
-    &:not(.anon) {padding-left: 70px;}
+    padding-left: @sidebarOpenWidth;
     height: 100%;
-    &.anon {
-        side-bar, header-bar { display: none}
-    }
 }
+
 #sidebar-wrapper {
-    margin-left: -150px;
-    left: -30px;
-    width: 250px;
+    margin-left: -160px;
+    left: -40px;
+    width: @sidebarOpenWidth;
     position: fixed;
     height: 100%;
     z-index: 999;

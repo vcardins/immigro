@@ -3,23 +3,20 @@
 @jspm: "../../../jspm_packages/";
 @npm: "../../../node_modules/";
 
-@blue: #337ab7;
-@darkblue:#30426a;
+@import "fonts";
+@import "variables";
+@import "base";
 
-@import "fonts.less";
-@import "variables.less";
-@import "base.less";
+@import "animation";
+@import "flickr";
+@import "social";
+@import "../../modules/users/styles";
 
-@import "animation.less";
-@import "flickr.less";
-@import "social.less";
-@import "../../modules/users/styles.less";
-
-@import "content.less";
-@import "hamburg.less";
-@import "header.less";
-@import "loading.less";
-@import "sidebar.less";
-@import "widgets.less";
+@import "content";
+@import "hamburg";
+@import "header";
+@import "loading";
+@import "sidebar";
+@import "widgets";
 @import "@{jspm}/github/twbs/bootstrap@3.3.5/css/bootstrap.css";
 @import "@{jspm}/github/CodeSeven/toastr@2.1.2/build/toastr.css";
