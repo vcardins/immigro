@@ -1,5 +1,5 @@
 {
-  "name": "aurelia-admin-panel",
+  "name": "immigro",
   "version": "0.14.0",
   "description": "A starter kit for building a standard navigation-style app with Aurelia with typescript.",
   "keywords": [
@@ -86,7 +86,6 @@
       "aurelia/framework": "github:aurelia/framework@^0.15.0",
       "aurelia/validation": "github:aurelia/validation@^0.2.7",
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
-      "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@^0.0.2",
       "commonmark": "npm:commonmark@^0.21.0",
       "core-js": "npm:core-js@^0.9.18",
       "css": "github:systemjs/plugin-css@^0.1.11",

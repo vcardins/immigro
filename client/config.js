@@ -16,7 +16,7 @@ System.config({
   },
 
   map: {
-    "aurelia-sails-socket-client": "github:Mordred/aurelia-sails-socket-client@0.6.0",
+    "Mordred/aurelia-sails-socket-client": "github:Mordred/aurelia-sails-socket-client@0.6.0",
     "aurelia-animator-css": "github:aurelia/animator-css@0.16.0",
     "aurelia-binding": "github:aurelia/binding@0.9.0",
     "aurelia-bootstrapper": "github:aurelia/bootstrapper@0.17.0",
@@ -36,6 +36,7 @@ System.config({
     "aurelia-path": "github:aurelia/path@0.9.0",
     "aurelia-route-recognizer": "github:aurelia/route-recognizer@0.7.0",
     "aurelia-router": "github:aurelia/router@0.12.0",
+    "aurelia-sails-socket-client": "github:Mordred/aurelia-sails-socket-client@0.6.0",
     "aurelia-task-queue": "github:aurelia/task-queue@0.7.0",
     "aurelia-templating": "github:aurelia/templating@0.15.1",
     "aurelia-templating-binding": "github:aurelia/templating-binding@0.15.0",
@@ -48,7 +49,6 @@ System.config({
     "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "bootstrap": "github:twbs/bootstrap@3.3.5",
-    "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@0.0.3",
     "commonmark": "npm:commonmark@0.21.0",
     "core-js": "npm:core-js@1.1.4",
     "css": "github:systemjs/plugin-css@0.1.13",
@@ -159,10 +159,6 @@ System.config({
       "aurelia-loader": "github:aurelia/loader@0.9.0",
       "aurelia-metadata": "github:aurelia/metadata@0.8.0"
     },
-    "github:aurelia/loader-default@0.9.5": {
-      "aurelia-loader": "github:aurelia/loader@0.8.7",
-      "aurelia-metadata": "github:aurelia/metadata@0.7.3"
-    },
     "github:aurelia/loader@0.8.7": {
       "aurelia-html-template-element": "github:aurelia/html-template-element@0.2.0",
       "aurelia-metadata": "github:aurelia/metadata@0.7.3",
@@ -269,15 +265,6 @@ System.config({
       "aurelia-dependency-injection": "github:aurelia/dependency-injection@0.9.2",
       "aurelia-logging": "github:aurelia/logging@0.6.4",
       "aurelia-templating": "github:aurelia/templating@0.14.4"
-    },
-    "github:charlespockert/aurelia-bs-grid@0.0.3": {
-      "bootstrap": "github:twbs/bootstrap@3.3.5",
-      "gooy/aurelia-compiler": "github:gooy/aurelia-compiler@0.0.5"
-    },
-    "github:gooy/aurelia-compiler@0.0.5": {
-      "aurelia-loader": "github:aurelia/loader@0.8.7",
-      "aurelia-loader-default": "github:aurelia/loader-default@0.9.5",
-      "aurelia-templating": "github:aurelia/templating@0.13.16"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.4.2"
