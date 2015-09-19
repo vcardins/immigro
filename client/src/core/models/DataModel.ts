@@ -121,6 +121,20 @@ export class DataModel<T> {
                   });
     }
 
+    upload(files:any, route:string, identifier?:any) {
+        let url = this.endpoint;
+        url += (identifier ? '/' + identifier : '');
+        url += '/' + (route || 'upload')
+ 
+        return this.dataProvider.upload(url, files)
+               .then((result) => {
+                 return result;
+               })
+               .catch((error) => {
+                  console.error('DataModel.upload() failed.', error, this.endpoint, data);
+               });
+    }
+
     private _subscribe() {
         this.ea.subscribe('auth:logout:success', this.clearCache.bind(this));
     }

@@ -73,11 +73,11 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-  public count(route:string, data:Object = undefined) {
+  count(route:string, data:Object = undefined) {
     return this.get(route + '/count/', data);
   }
 
-  public find(route:string, prop:string, value:any):Promise<any> {
+  find(route:string, prop:string, value:any):Promise<any> {
     return this.get(route, 'GET').then(data => {
       return data.filter((item:any) => {
         return item[prop] == value;
@@ -94,7 +94,7 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-  public get(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+  get(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     return this.request(route, 'GET', data, headers, anonymous);
   }
 
@@ -107,7 +107,7 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-  public getById(route:string, identifier:any, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+  getById(route:string, identifier:any, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     return this.request(route + '/' + identifier, 'GET', undefined, headers, anonymous);
   }
 
@@ -119,11 +119,11 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-  public create(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+  create(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     return this.request(route, 'POST', data, headers, anonymous);
   }
 
-  public patch(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+  patch(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     return this.request(route, 'PATCH', data, headers, anonymous);
   }
 
@@ -136,7 +136,7 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-    public update(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+    update(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
       return this.request(route, 'PUT', data, headers, anonymous);
     }
 
@@ -148,13 +148,41 @@ export class DataProvider  {
     *
     * @returns {Promise|*}
     */
-  public delete(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+  delete(route:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     return this.request(route, 'DELETE', data, headers, anonymous);
   }
 
-  public plainRequest(route:string, httpRequestType:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
+  plainRequest(route:string, httpRequestType:string, data:Object = undefined, headers:Object = undefined, anonymous:boolean = false):Promise<any> {
     this._isPlainRequest = true;
     return this.request(route, httpRequestType, data, headers, anonymous);
+  }
+
+  upload(route:string, files:Array<File>, anonymous:boolean = false):Promise<any> {
+    let req = this._getConfigRequest(route, 'POST');
+    let p:any = this.http.createRequest(req.url);
+    if (!anonymous) {
+      p = p.withToken();
+    }
+
+    let formData = new FormData();
+    for (var i = 0, f; f = files[i]; i++) {
+      //add each file to the form data and iteratively name them
+      if (f.isDeleted) { continue; }
+      formData.append("file_" + i, f);
+    }
+    //transformRequest: angular.identity,
+    p = p.asPost()
+        .withContent(formData)
+        .withHeader('Content-Type', undefined);
+
+    return new Promise((resolve, reject) => {
+          p.send().then(result => {
+            if (result)
+              resolve(result.content);
+            else
+              reject(undefined);
+          });
+      });
   }
 
   private request(route:string,
@@ -167,7 +195,7 @@ export class DataProvider  {
       let req = this._getConfigRequest(route, httpRequestType, data, headers);
       let key = req.url.replace(this.appSettings.api.url + this.appSettings.api.prefix, '');
 
-      if (this.deferredResult[key]) {
+      if (this.deferredResult[key] && httpRequestType == 'GET') {
         return this.deferredResult[key];
       }
 
