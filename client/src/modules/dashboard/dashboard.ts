@@ -3,8 +3,9 @@ import { computedFrom, bindable } from 'aurelia-framework';
 import { Logger } from 'core/Services';
 
 export class User {
-  public firstName = 'John';
-  public lastName = 'Doe';
+  public firstName:string = 'John';
+  public lastName:string = 'Doe';
+  public picture:string = null;
 
   //Getters can't be observed with Object.observe, so they must be dirty checked.
   //However, if you tell Aurelia the dependencies, it no longer needs to dirty check the property.
@@ -24,7 +25,6 @@ export class Dashboard{
   public previousValue = this.user.fullName;
   currentDate:Date;
   netWorth:number;
-  authors:any;
 
   constructor(private logger:Logger) {
     this.logger = logger;
@@ -47,4 +47,5 @@ export class Dashboard{
       return confirm('Are you sure you want to leave?');
     }
   }
+  
 }
