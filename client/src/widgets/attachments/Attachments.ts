@@ -8,6 +8,10 @@ export class Attachments {
   @bindable maxFileSize:number;
   @bindable totalFilesSize:number;
 
+  @bindable attachLabel:string = null;
+  @bindable uploadLabel:string = null;
+  @bindable uploader:any;
+
   const MAX_FILE_SIZE = 10;
   const TOTAL_FILES_SIZE = 1000000;
   const MB = 1024 * 1024;

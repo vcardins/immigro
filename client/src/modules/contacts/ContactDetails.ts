@@ -48,7 +48,7 @@ export class ContactDetails {
 
   }
 
-  save(){
+  save():void{
     let isNew = !this.contact.id;
 
     this.contactService.save(this.contact, this.contact.id).then(contact => {
@@ -56,16 +56,20 @@ export class ContactDetails {
       this.originalContact = new ContactModel(contact);
       this.ea.publish(new ContactUpdated(this.contact));
       this.logger.info('Contact succesfully updated');
-      if (this.files.length>0) {
-        this.contactService.upload(this.files, null, this.contact.id).then(files => {
-          this.files = null;
-        }).catch((err) => {
-          this.logger.error('Error uploading contact files ' + err);
-        });
-      }
+      this.upload();
     }).catch((err) => {
       this.logger.error('Error on updating contact');
     });
+    
+  }
+
+  upload():void {
+    if (this.files.length==0) { return; }
+    this.contactService.upload(this.files, null, this.contact.id).then(files => {
+        this.files = null;
+      }).catch((err) => {
+        this.logger.error('Error uploading contact files ' + err);
+      });
   }
 
   canDeactivate(){
