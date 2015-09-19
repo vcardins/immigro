@@ -181,6 +181,10 @@ export class DataProvider  {
               resolve(result.content);
             else
               reject(undefined);
+          }).finally(function(){
+            for (var i = 0; i < files.length; i++) {
+              delete formData['file_'+i];
+            }
           });
       });
   }
