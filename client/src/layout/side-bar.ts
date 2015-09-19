@@ -14,7 +14,7 @@ export class SideBar {
   @bindable public router:any = null;
 
   constructor(private authService:AuthService, public ea:EventAggregator, private aurelia:Aurelia){
-    this.heading = 'Aurelia';
+    this.heading = 'Immigro';
     this.accessLevels = accessLevels;
   }
 
