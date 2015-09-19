@@ -4,7 +4,7 @@
  * This value converter takes an array with a config parameter and sorts the array and
  * returns it to the view.
  */
-export class SortValueConverter {
+export class ArraySortValueConverter {
     /**
      * To View method
      *
