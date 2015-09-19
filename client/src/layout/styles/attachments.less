@@ -1,0 +1,47 @@
+
+.attachments {
+  .upload-handle{
+    width:100%;
+    margin-top: 5px;
+    i { font-size:125% }
+    input[type="file"] {display: none;}
+    label {
+      padding: 3px 8px;
+      border-radius: 3px;
+      &:hover {
+        background: #ddd
+      }
+    }
+  }
+  .files-list {
+    float:left;
+    font-size: 12px;
+    width:100%;
+    .file-table {
+      display: flex;
+      width:100%;
+      transition: all 0.4s ease-out;
+      .file-name { flex: 0.75}
+      .file-size { color: @blue; flex: 0.20; text-align: right; padding-right: 5px}
+      .file-delete { color: red; flex: 0.05; text-align: center}
+    }
+    .error{
+      font-size: 13px;
+      color:red;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        padding-left: .5em;
+        cursor: default;
+        &:last-child{
+          margin-bottom: 10px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #eee;
+        }
+      }
+    }
+  }
+}

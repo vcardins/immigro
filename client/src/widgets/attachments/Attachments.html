@@ -1,0 +1,23 @@
+<template class="attachments">
+    <div class="files-list">
+      <output class="result" id="result-${randomId}">
+        <ul>
+          <li class="file-table" repeat.for="file of files" data-icon="${$parent.getIcon(file)}" title="Last Modified ${(file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a')}">
+            <span class="file-name">${file.name}</span>
+            <span class="file-size">${file.size | fileSize}</span>
+            <span id="file-${$index}" class="file-delete clickable" click.delegate="$parent.removeFile(file)" title="Remove attachment">
+              <i class="zmdi zmdi-close-circle-o"></i>
+            </span>
+          </li>
+        </ul>
+        <div class="error" if.bind="error">${error}</div>
+      </output>
+    </div>
+    <div class="upload-handle">
+      <label for="files-${randomId}" title="Attach files" class="clickable">
+        <i class="menu-icon zmdi zmdi-attachment-alt" id="upload-handle-${randomId}"></i>
+        <span>Attach</span>
+      </lable>
+      <input class="files" id="files-${randomId}" type="file" name="files[]" change.delegate="handleFileSelect($event)" />
+    </div>
+</template>

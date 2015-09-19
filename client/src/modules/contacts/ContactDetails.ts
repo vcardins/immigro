@@ -12,6 +12,7 @@ export class ContactDetails {
 
   heading = 'Contact Details';
   contact:ContactModel;
+  files:Array<any> = [];
   private originalContact:ContactModel;
   private selectedId:string;
   private validation:any = { result : {isValid : false} };
@@ -36,30 +37,34 @@ export class ContactDetails {
       this.contact.setEditMode(true);
       return true;
     }
-    this.ea.subscribe(ContactSelected, evt => {
-      this.contact = new ContactModel(evt.contact);
-      this.originalContact = new ContactModel(evt.contact);
+
+    return this.contactService.find(params.id).then(contact => {
+      this.contact = new ContactModel(contact);
+      this.originalContact = new ContactModel(contact);
       this.contact.setEditMode(true);
       config.navModel.setTitle(this.contact.firstName);
+      this.ea.publish(new ContactViewed(this.contact));
     });
-    // return this.contactService.find(params.id).then(contact => {
-    //   this.contact = new ContactModel(contact);
-    //   this.originalContact = new ContactModel(contact);
-    //   this.contact.setEditMode(true);
-    //   config.navModel.setTitle(this.contact.firstName);
-    //   this.ea.publish(new ContactViewed(this.contact));
-    // });
+
   }
 
   save(){
     let isNew = !this.contact.id;
+
     this.contactService.save(this.contact, this.contact.id).then(contact => {
       this.contact = new ContactModel(contact);
       this.originalContact = new ContactModel(contact);
       this.ea.publish(new ContactUpdated(this.contact));
       this.logger.info('Contact succesfully updated');
-    }).catch(err=>{
-      this.logger.info('Error on updating contact');
+      if (this.files.length>0) {
+        this.contactService.upload(this.files, null, this.contact.id).then(files => {
+          this.files = null;
+        }).catch((err) => {
+          this.logger.error('Error uploading contact files ' + err);
+        });
+      }
+    }).catch((err) => {
+      this.logger.error('Error on updating contact');
     });
   }
 
