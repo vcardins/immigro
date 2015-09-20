@@ -32,6 +32,21 @@
 		return target;
 	}
 
+	// extend: used to make deep copies of options object
+  static extend(destination, source) {
+    for (let property in source) {
+        if (source[property] && source[property].constructor &&
+            source[property].constructor === Object) {
+            destination[property] = destination[property] || {};
+            arguments.callee(destination[property], source[property]);
+        }
+        else {
+            destination[property] = source[property];
+        }
+    }
+    return destination;
+  }
+
   static isDefined(value:any) {
 		return typeof value !== 'undefined';
 	}

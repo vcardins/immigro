@@ -20,11 +20,33 @@ function removeClass(el, name) {
     }
 }
 
+// prettySize: convert bytes to a more readable string.
+function prettySize(bytes:number, precision:number = 1) {
+    let s = ['bytes', 'kb', 'MB', 'GB', 'TB', 'PB'];
+    let e = Math.floor(Math.log(bytes)/Math.log(1024));
+    return (bytes/Math.pow(1024, Math.floor(e))).toFixed(precision)+" "+s[e];
+}
+
+// getGroupID: generate a unique int ID for groups.
+ var getGroupID = (function(id) {
+     return function() {
+         return id++;
+     };
+ })(0);
+
+ // getUniqueID: generate a unique int ID for files
+ var getUniqueID = (function(id) {
+     return function() {
+         return id++;
+     };
+ })(0);
+
 @autoinject
 @customElement('attachments')
 /**
  * http://www.html5rocks.com/en/tutorials/file/dndfiles/
  * https://raw.githubusercontent.com/bgrins/filereader.js/master/filereader.js
+ * http://www.petermorlion.com/file-upload-with-aurelia/
  */
 export class Attachments {
   /**
@@ -37,12 +59,32 @@ export class Attachments {
    * @type {boolean}
    */
   @bindable dragDrop:boolean = false;
+  /**
+   * [files description]
+   * @type {Array<any>}
+   */
   @bindable files:Array<any> = [];
+  /**
+   * [maxFileSize description]
+   * @type {number}
+   */
   @bindable maxFileSize:number = 1;
+  /**
+   * [totalFilesSize description]
+   * @type {number}
+   */
   @bindable totalFilesSize:number = 100;
 
   @bindable attachLabel:string = null;
+  /**
+   * [uploadLabel description]
+   * @type {string}
+   */
   @bindable uploadLabel:string = null;
+  /**
+   * [uploader description]
+   * @type {any}
+   */
   @bindable uploader:any;
 
   const MAX_FILE_SIZE = 10;
@@ -59,6 +101,10 @@ export class Attachments {
     this.randomId = (Math.random() * 1000).toFixed(3).replace('.','-');
   }
 
+  /**
+   * [attached description]
+   * @return {[type]} [description]
+   */
   attached() {
     this.maxFileSize = parseFloat(this.maxFileSize || MAX_FILE_SIZE) * MB;
     this.totalFilesSize = parseFloat(this.totalFilesSize || TOTAL_FILES_SIZE) * MB;
@@ -79,12 +125,19 @@ export class Attachments {
       this.dropbox.addEventListener('dragleave', this.handleDragLeave.bind(this), false);
     }
   }
-
-  clearError() {
+  
+  /**
+   * [clearError description]
+   */
+  clearError():void {
     this.error = undefined;
   }
 
-  handleDragEnter(e) {
+  /**
+   * [handleDragEnter description]
+   * @param {[type]} e [description]
+   */
+  handleDragEnter(e):void {
     e.stopPropagation();
     e.preventDefault();
     this.clearError();
@@ -93,13 +146,21 @@ export class Attachments {
     }
   }
 
-  handleDragLeave(e) {
+  /**
+   * [handleDragLeave description]
+   * @param {[type]} e [description]
+   */
+  handleDragLeave(e):void {
     if (this.dragClass) {
       removeClass(this.dropbox, this.dragClass);
     }
   }
 
-  handleDragOver(e) {
+  /**
+   * [handleDragOver description]
+   * @param {[type]} e [description]
+   */
+  handleDragOver(e):void {
     e.stopPropagation();
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
@@ -108,6 +169,10 @@ export class Attachments {
     }
   }
 
+  /**
+   * [handleDrop description]
+   * @param {any} e [description]
+   */
   handleDrop(e:any):void {
     e.stopPropagation();
     e.preventDefault();
@@ -117,13 +182,40 @@ export class Attachments {
     this.processFiles(e.dataTransfer.files);
   }
 
+  /**
+   * [handleFileSelect description]
+   * @param {any} e [description]
+   */
   handleFileSelect(e:any):void {
     e.stopPropagation();
     e.preventDefault();
     this.processFiles(e.target.files);
   }
 
-  processFiles(files:Array<File>):void {
+ /**
+ * setupCustomFileProperties: modify the file object with extra properties
+ * @param {[type]} files   [description]
+ * @param {[type]} groupID [description]
+ */
+ private setupCustomFileProperties(files, groupID):void {
+     for (var i = 0; i < files.length; i++) {
+         var file = files[i];
+         file.extra = {
+             nameNoExtension: file.name.substring(0, file.name.lastIndexOf('.')),
+             extension: file.name.substring(file.name.lastIndexOf('.') + 1),
+             fileID: i,
+             uniqueID: getUniqueID(),
+             groupID: groupID,
+             prettySize: prettySize(file.size)
+         };
+     }
+ }
+
+ /**
+  * [processFiles description]
+  * @param {Array<File>} files [description]
+  */
+ processFiles(files:Array<File>):void {
 
     if (!files || !files.length) { return; }
 
@@ -147,6 +239,10 @@ export class Attachments {
     }
   }
 
+  /**
+   * [removeFile description]
+   * @param {any} file [description]
+   */
   removeFile(file:any):void {
       file.isDeleted = true;
       this.clearError();
@@ -155,7 +251,12 @@ export class Attachments {
       this.files.splice(index, 1);
   }
 
-  getIcon(file:any) {
+  /**
+   * [getIcon description]
+   * @param  {File}   file [description]
+   * @return {string}      [description]
+   */
+  getIcon(file:File):string {
       return file.type.match('image') ? 'image': 'file';
   }
 
