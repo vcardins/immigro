@@ -1,5 +1,6 @@
 <template class="attachments">
     <div class="files-list">
+      <div id="dropZone" class="drop-zone" if.bind="dragDrop">Drop files here</div>
       <output class="result" id="result-${randomId}">
         <ul>
           <li class="file-table" repeat.for="file of files" data-icon="${$parent.getIcon(file)}" title="Last Modified ${(file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a')}">
@@ -18,7 +19,7 @@
         <i class="menu-icon zmdi zmdi-attachment-alt" id="upload-handle-${randomId}"></i>
         <span if.bind="!!attachLabel">${attachLabel}</span>
       </label>
-      <input class="files" id="files-${randomId}" type="file" name="files[]" change.delegate="handleFileSelect($event)" />
+      <input class="files" id="files-${randomId}" type="file" name="files[]" />
       <button type="button" title="Upload files"
               class="btn btn-primary btn-xs pull-right"
               if.bind="!!uploader"

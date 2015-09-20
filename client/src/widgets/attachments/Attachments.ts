@@ -1,12 +1,45 @@
 import { autoinject, customElement, bindable } from 'aurelia-framework';
 
+// hasClass: does an element have the css class?
+function hasClass(el, name) {
+    return new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)").test(el.className);
+}
+
+// addClass: add the css class for the element.
+function addClass(el, name) {
+    if (!hasClass(el, name)) {
+      el.className = el.className ? [el.className, name].join(' ') : name;
+    }
+}
+
+// removeClass: remove the css class from the element.
+function removeClass(el, name) {
+    if (hasClass(el, name)) {
+      var c = el.className;
+      el.className = c.replace(new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)", "g"), " ").replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+    }
+}
+
 @autoinject
 @customElement('attachments')
+/**
+ * http://www.html5rocks.com/en/tutorials/file/dndfiles/
+ * https://raw.githubusercontent.com/bgrins/filereader.js/master/filereader.js
+ */
 export class Attachments {
-  @bindable multiple:boolean;
-  @bindable files:Array<any>;
-  @bindable maxFileSize:number;
-  @bindable totalFilesSize:number;
+  /**
+   * Set whether it allows multiple files selection
+   * @type {boolean}
+   */
+  @bindable multiple:boolean = false;
+  /**
+   * Set whether it allows drag n' drop capability
+   * @type {boolean}
+   */
+  @bindable dragDrop:boolean = false;
+  @bindable files:Array<any> = [];
+  @bindable maxFileSize:number = 1;
+  @bindable totalFilesSize:number = 100;
 
   @bindable attachLabel:string = null;
   @bindable uploadLabel:string = null;
@@ -18,24 +51,84 @@ export class Attachments {
   private filesSize = 0;
   private randomId:string;
   private error:string;
+  private dropZone:string = 'dropZone';
+  private dropbox:Element;
+  private dragClass:string = 'drag';
 
   constructor(private element:Element){
     this.randomId = (Math.random() * 1000).toFixed(3).replace('.','-');
   }
 
   attached() {
-    this.maxFileSize = parseFloat(this.maxFileSize || MAX_FILE_SIZE) * this.MB;
-    this.totalFilesSize = parseFloat(this.totalFilesSize || TOTAL_FILES_SIZE) * this.MB;
+    this.maxFileSize = parseFloat(this.maxFileSize || MAX_FILE_SIZE) * MB;
+    this.totalFilesSize = parseFloat(this.totalFilesSize || TOTAL_FILES_SIZE) * MB;
     this.files = [];
     let filesUpload = this.element.querySelector('input[type="file"]');
     if (this.multiple) {
       filesUpload.setAttribute('multiple', 'multiple');
     }
+
+    filesUpload.addEventListener('change', this.handleFileSelect.bind(this), false);
+
+    if (this.dragDrop) {
+      // Setup the dnd listeners.
+      this.dropbox = document.getElementById(this.dropZone);
+      this.dropbox.addEventListener('dragover', this.handleDragOver.bind(this), false);
+      this.dropbox.addEventListener('drop', this.handleDrop.bind(this), false);
+      this.dropbox.addEventListener('dragenter', this.handleDragEnter.bind(this), false);
+      this.dropbox.addEventListener('dragleave', this.handleDragLeave.bind(this), false);
+    }
   }
 
-  handleFileSelect(evt:any):void {
-    let files:Array<any> = evt.target.files;
-    if (files.length == 0) { return; }
+  clearError() {
+    this.error = undefined;
+  }
+
+  handleDragEnter(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.clearError();
+    if (this.dragClass) {
+      addClass(this.dropbox, this.dragClass);
+    }
+  }
+
+  handleDragLeave(e) {
+    if (this.dragClass) {
+      removeClass(this.dropbox, this.dragClass);
+    }
+  }
+
+  handleDragOver(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    if (this.dragClass) {
+        addClass(this.dropbox, this.dragClass);
+    }
+  }
+
+  handleDrop(e:any):void {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.dragClass) {
+        removeClass(this.dropbox, this.dragClass);
+    }
+    this.processFiles(e.dataTransfer.files);
+  }
+
+  handleFileSelect(e:any):void {
+    e.stopPropagation();
+    e.preventDefault();
+    this.processFiles(e.target.files);
+  }
+
+  processFiles(files:Array<File>):void {
+
+    if (!files || !files.length) { return; }
+
+    this.files = this.files || [];
+
     let unallowedFiles:Array<any> = [];
     let error:string = '';
 
@@ -56,7 +149,7 @@ export class Attachments {
 
   removeFile(file:any):void {
       file.isDeleted = true;
-      this.error = '';
+      this.clearError();
       let index = this.files.indexOf(file);
       if (index== -1) { return; }
       this.files.splice(index, 1);

@@ -1,7 +1,7 @@
 
 export class FileSizeValueConverter {
 
-  toView(bytes:number, precision:number = 2) {
+  toView(bytes:number, precision:number = 1) {
     let units = [
       'bytes',
       'KB',
@@ -24,5 +24,5 @@ export class FileSizeValueConverter {
     let result = bytes.toFixed( + precision ) + ' ' + units[ unit ];
     return result;
   }
-  
+
 }

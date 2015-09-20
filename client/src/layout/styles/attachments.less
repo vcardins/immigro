@@ -13,14 +13,29 @@
       }
     }
   }
+
   .files-list {
     float:left;
     font-size: 12px;
     width:100%;
+    .drop-zone {
+      border: 1px dashed #bbb;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+      color: #bbb;
+      &.drag {
+        border-color: gold;
+        background-color: cornsilk;
+      }
+    }
     .file-table {
       display: flex;
       width:100%;
-      transition: all 0.4s ease-out;
+      transition: all 0.4s ease-in;
       .file-name { flex: 0.75}
       .file-size { color: @blue; flex: 0.20; text-align: right; padding-right: 5px}
       .file-delete { color: red; flex: 0.05; text-align: center}
