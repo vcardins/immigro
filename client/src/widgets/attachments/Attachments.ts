@@ -125,7 +125,7 @@ export class Attachments {
       this.dropbox.addEventListener('dragleave', this.handleDragLeave.bind(this), false);
     }
   }
-  
+
   /**
    * [clearError description]
    */

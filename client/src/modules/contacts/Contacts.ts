@@ -1,18 +1,17 @@
-import {Router} from "aurelia-router"
+import { Router, activationStrategy } from 'aurelia-router';
 
 export class Contacts{
+
   public heading:string = 'Contacts';
-  
-  public router: Router;
-  configureRouter(config: any, router:Router){
+
+  configureRouter(private config: any, private router:Router){
     config.map([
-			{ route: ['', ':id'],  name: 'contact-details', moduleId: './ContactDetails', nav: false, title:'Contact\'s Details', auth:true, description:'' },	
+			{ route: ['', ':id'],  name: 'contact-details', moduleId: './ContactDetails', nav: false, title:'Contact\'s Details', auth:true, description:'' },
     ]);
-    this.router = router;   
   }
-  
-   activate():any { 
-    
-  }
+
+  // determineActivationStrategy(){
+  //   return activationStrategy.replace;
+  // }
 
 }

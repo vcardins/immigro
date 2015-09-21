@@ -60,7 +60,7 @@ export class ContactDetails {
     }).catch((err) => {
       this.logger.error('Error on updating contact');
     });
-    
+
   }
 
   upload():void {
@@ -84,5 +84,5 @@ export class ContactDetails {
     }
     return true;
   }
-
+  
 }
