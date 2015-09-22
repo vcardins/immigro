@@ -2,6 +2,7 @@
 export function configure(aurelia) {
   aurelia.globalResources(
     `fullscreen/fullscreen`,
-    `attachments/attachments`
+    `attachments/attachments`,
+    `datetimepicker/datetimepicker`
   );
 }

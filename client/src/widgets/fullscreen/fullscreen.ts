@@ -6,7 +6,7 @@ import * as screenfull from 'screenfull';
 export class ToogleFullscreen {
   @bindable iconOn;
   @bindable iconOff;
-  constructor(element:Element) {
+  constructor(private element:Element) {
     this.element = element;
   }
 

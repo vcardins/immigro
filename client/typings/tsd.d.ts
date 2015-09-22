@@ -41,4 +41,5 @@
 /// <reference path="_custom/commonmark.d.ts" />
 /// <reference path="es6-promise/es6-promise.d.ts" />
 /// <reference path="_custom/screenfull.d.ts" />
+/// <reference path="_custom/pikaday.d.ts" />
 undefined

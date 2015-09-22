@@ -16,7 +16,7 @@ export class ContactModel extends EntityModel{
   state:StateModel = new StateModel();
   email:string = null;
   phoneNumber:string = null;
-  files:Array<any> = [];
+  dob:Date = null;  
 
   constructor(model?:ContactModel) {
     super();

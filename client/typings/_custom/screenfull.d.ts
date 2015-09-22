@@ -5,10 +5,10 @@
 
 interface ScreenFull {
 	isFullscreen: boolean;
-	enabled: boolean;	
+	enabled: boolean;
 	element: Element;
 	request(elem: Element): void;
-	toggle(elem: Element): void;
+	toggle(elem?: Element): void;
 	exit(): void;
 }
 

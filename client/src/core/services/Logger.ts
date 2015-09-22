@@ -12,10 +12,10 @@ const defaults = {
     type: 'info',
     closeDuration: 2000
   }
-  
-  
+
+
 export class Logger {
-    
+
   constructor() {
     toastr.options = {
       closeButton: true,
@@ -45,14 +45,14 @@ export class Logger {
   success(options:any) {
     this.log(this.sanitize(options, 'success'));
   }
-  
+
   log(options:any) {
-    var opts = Object.assign({}, defaults, options);
+    let opts = Object.assign({}, defaults, options);
     if (opts.showToast) {
       toastr[opts.type](opts.message, opts.title);
     }
   }
-  
+
   sanitize(options:any, messageType:string) {
     if (typeof options === 'string' || options instanceof String) {
       return {
@@ -60,9 +60,9 @@ export class Logger {
         type: messageType
       };
     }
-  
+
     options.type = messageType;
     return options;
   }
-  
+
 }

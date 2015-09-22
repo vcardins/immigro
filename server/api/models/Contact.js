@@ -42,6 +42,10 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       required: true
     },
     // Contact lastName
+    dob: {
+      type: 'date'
+    },
+    // Contact lastName
     phoneNumber: {
       type: 'text'
     }

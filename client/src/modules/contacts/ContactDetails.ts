@@ -23,6 +23,7 @@ export class ContactDetails {
     this.ea = ea;
     this.validation.result.isValid = true;
     this.logger = logger;
+    this.dateFormat = 'YYYY-MM-DD hh:mm a';
     // this.validation = valid.on(this)
     //     .ensure('contact.firstName').isNotEmpty().hasMinLength(3).hasMaxLength(10)
     //     .ensure('contact.lastName').isNotEmpty().hasMinLength(3).hasMaxLength(10)
@@ -74,7 +75,7 @@ export class ContactDetails {
 
   canDeactivate(){
     if (!this.contact.id) { return true; }
-
+    
     if(!Utils.areEqual(this.originalContact.getOwnProperties(), this.contact.getOwnProperties())){
       let result = confirm('You have unsaved changes. Are you sure you wish to leave?');
       if(!result){
@@ -84,5 +85,5 @@ export class ContactDetails {
     }
     return true;
   }
-  
+
 }

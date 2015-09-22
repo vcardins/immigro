@@ -61,6 +61,7 @@ System.config({
     "moment": "github:moment/moment@2.10.6",
     "nprogress": "github:rstacruz/nprogress@0.2.0",
     "numeral": "npm:numeral@1.5.3",
+    "pikaday": "github:owenmead/Pikaday@1.3.3",
     "sails.io.js": "github:balderdashy/sails.io.js@0.11.6",
     "screenfull": "github:sindresorhus/screenfull.js@2.0.0",
     "smajl/bootstrap": "github:smajl/bootstrap@master",
