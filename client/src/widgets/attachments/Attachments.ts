@@ -41,6 +41,10 @@ function prettySize(bytes:number, precision:number = 1) {
      };
  })(0);
 
+ const MAX_FILE_SIZE = 10;
+ const TOTAL_FILES_SIZE = 1000000;
+ const MB = 1024 * 1024;
+
 @autoinject
 @customElement('attachments')
 /**
@@ -87,9 +91,6 @@ export class Attachments {
    */
   @bindable uploader:any;
 
-  const MAX_FILE_SIZE = 10;
-  const TOTAL_FILES_SIZE = 1000000;
-  const MB = 1024 * 1024;
   private filesSize = 0;
   private randomId:string;
   private error:string;

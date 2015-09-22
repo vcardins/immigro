@@ -22,7 +22,6 @@ export function configure(aurelia) {
     `${path}sort-array`,
     `${path}string-capitalize`,
     `${path}string-cut`
-    //`${pathUtils}blur-image`
   );
 
 }

@@ -40,4 +40,5 @@
 /// <reference path="_custom/socket.io.d.ts" />
 /// <reference path="_custom/commonmark.d.ts" />
 /// <reference path="es6-promise/es6-promise.d.ts" />
+/// <reference path="_custom/screenfull.d.ts" />
 undefined
