@@ -51,9 +51,8 @@
           <div class="form-group" if.bind="!!contact.id">
             <label class="col-sm-2 control-label">Files</label>
             <div class="col-sm-10">
-              <require from="../../widgets/attachments/attachments"></require>
               <attachments
-                  if.bind="!!contact.id"
+                  show.bind="!!contact.id"
                   files.two-way="files"
                   multiple.bind="true"
                   drag-drop.bind="true"
