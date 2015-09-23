@@ -16,6 +16,7 @@ System.config({
   },
 
   map: {
+    "BankFacil/vanilla-masker": "github:BankFacil/vanilla-masker@1.1.0",
     "Mordred/aurelia-sails-socket-client": "github:Mordred/aurelia-sails-socket-client@0.6.0",
     "aurelia-animator-css": "github:aurelia/animator-css@0.16.0",
     "aurelia-binding": "github:aurelia/binding@0.9.1",
