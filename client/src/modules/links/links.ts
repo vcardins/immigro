@@ -2,6 +2,7 @@
 import { bindable, autoinject } from 'aurelia-framework';
 import { LinkModel, LinkService } from './linksService';
 import { Sorter } from 'core/Helpers';
+import { Dispatcher, handle, waitFor } from 'aurelia-flux';
 
 @autoinject
 export class Links{
@@ -11,14 +12,24 @@ export class Links{
   count:number;
   filteredModels:Array<LinkModel>;
 
-  constructor(public linkService:LinkService){}
+  constructor(public linkService:LinkService, private dispatcher:Dispatcher){
+    this.dispatcher.handle('message.submit', (action, message) => {
+          alert(message);
+      });
+  }
 
   activate(){
 		this.sorter = new Sorter();
   	return this.linkService.load().then((response, reject) => {
   		this.links = this.filteredModels = response;
       this.count = this.links.length;
+      this.dispatcher.dispatch('message.submit', this.links);
   	});
+  }
+
+  @handle('message.submit')
+  messageHandler(action, message) {
+    console.log(arguments);
   }
 
   sort(prop) {
@@ -31,5 +42,6 @@ export class Links{
         count: this.count
       }));
   }
+
 
 }

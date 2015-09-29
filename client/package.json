@@ -66,7 +66,7 @@
       "aurelia-dependency-injection": "github:aurelia/dependency-injection@^0.10.0",
       "aurelia-event-aggregator": "github:aurelia/event-aggregator@^0.8.0",
       "aurelia-fetch-client": "github:aurelia/fetch-client@^0.1.2",
-      "aurelia-flux": "github:tfrydrychewicz/aurelia-flux@^0.1.6",
+      "aurelia-flux": "github:thomas-jakemeyn/aurelia-flux@^0.1.7",
       "aurelia-framework": "github:aurelia/framework@^0.16.0",
       "aurelia-history": "github:aurelia/history@^0.7.0",
       "aurelia-history-browser": "github:aurelia/history-browser@^0.8.0",
@@ -104,6 +104,7 @@
       "screenfull": "github:sindresorhus/screenfull.js@^2.0.0",
       "smajl/bootstrap": "github:smajl/bootstrap@master",
       "socket.io-client": "github:socketio/socket.io-client@^1.3.6",
+      "thomas-jakemeyn/aurelia-flux": "github:thomas-jakemeyn/aurelia-flux@^0.1.7",
       "toastr": "github:CodeSeven/toastr@^2.1.2"
     },
     "devDependencies": {

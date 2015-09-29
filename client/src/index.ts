@@ -18,10 +18,9 @@ export function configure(aurelia: Aurelia) {
 
   aurelia.use
     .standardConfiguration()
-    //.plugin('aurelia-flux')
     .plugin('aurelia-animator-css')
     .plugin('toastr')
-    .plugin('aurelia-configuration', config => {
+    .plugin('aurelia-configuration', (config:any) => {
         config.setEnvironments({
             development: ['localhost', 'dev.local'],
             staging: ['staging.website.com', 'test.staging.website.com'],
@@ -38,6 +37,7 @@ export function configure(aurelia: Aurelia) {
         //x.withInterceptor(interceptor);
       });
     })
+    //.plugin('aurelia-flux')
     .feature('core/resources')
     .feature('core/auth')
     .feature('widgets')
