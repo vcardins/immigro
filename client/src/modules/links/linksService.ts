@@ -1,12 +1,8 @@
 
 import { autoinject } from 'aurelia-framework';
-import { JsonDataProvider } from 'core/Services';
-
-export interface ILinkService {
-  all: () => Promise<any>;
-  getById: (id:number) => Promise<any>;
-  save: (model:LinkModel) => Promise<boolean>;  
-}
+import { DataModel } from 'core/Models';
+import { DataProvider } from 'core/Services';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 export class LinkModel {
   id:number;
@@ -17,14 +13,22 @@ export class LinkModel {
 }
 
 @autoinject
+export class LinkService extends DataModel<LinkModel>{
+  constructor(dataProvider: DataProvider, public ea:EventAggregator) {
+      super(dataProvider, ea, 'link');
+  }
+}
+/*
+@autoinject
 export class LinkService {
-  
+
   constructor(public jsonDataProvider: JsonDataProvider) {
     this.jsonDataProvider = jsonDataProvider;
   }
-  
+
   all() {
     return this.jsonDataProvider.load('links');
   }
-  
+
 }
+*/
