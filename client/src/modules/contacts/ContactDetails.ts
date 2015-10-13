@@ -1,6 +1,6 @@
 import { autoinject, bindable } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-//import { Validation } from 'aurelia-validation';
+import { Validation } from 'aurelia-validation';
 import { ContactModel } from './ContactModel';
 import { ContactService } from './ContactService';
 import { ContactSelected, ContactUpdated, ContactViewed } from './Messages';
@@ -11,25 +11,20 @@ import { Logger } from 'core/Services';
 export class ContactDetails {
 
   heading = 'Contact Details';
-  contact:ContactModel;
+  contact:ContactModel = new ContactModel();
   files:Array<any> = [];
   private originalContact:ContactModel;
   private selectedId:string;
   private validation:any = { result : {isValid : false} };
-  //private validation:Validation;
 
-  constructor(private ea:EventAggregator, private contactService:ContactService, private logger:Logger) { //, private valid:Validation
-    this.contactService = contactService;
-    this.ea = ea;
-    this.validation.result.isValid = true;
-    this.logger = logger;
+  constructor(private ea:EventAggregator, private contactService:ContactService, private logger:Logger, private valid:Validation) { //
     this.dateFormat = 'YYYY-MM-DD hh:mm a';
-    // this.validation = valid.on(this)
-    //     .ensure('contact.firstName').isNotEmpty().hasMinLength(3).hasMaxLength(10)
-    //     .ensure('contact.lastName').isNotEmpty().hasMinLength(3).hasMaxLength(10)
-    //     .ensure('contact.email').isNotEmpty().isEmail();
+    this.validation = valid.on(this)
+        .ensure('contact.firstName').isNotEmpty().hasMinLength(3).hasMaxLength(10)
+        .ensure('contact.lastName').isNotEmpty().hasMinLength(3).hasMaxLength(10)
+        .ensure('contact.email').isNotEmpty().isEmail();
 
-    // this.contact.validation = this.validation;
+    this.contact.validation = this.validation;
   }
 
   activate(params:any, config:any):any { //params, config
@@ -75,7 +70,7 @@ export class ContactDetails {
 
   canDeactivate(){
     if (!this.contact.id) { return true; }
-    
+
     if(!Utils.areEqual(this.originalContact.getOwnProperties(), this.contact.getOwnProperties())){
       let result = confirm('You have unsaved changes. Are you sure you wish to leave?');
       if(!result){
