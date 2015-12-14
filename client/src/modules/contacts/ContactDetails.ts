@@ -16,8 +16,10 @@ export class ContactDetails {
   private originalContact:ContactModel;
   private selectedId:string;
   private validation:any = { result : {isValid : false} };
+  private dateFormat:string;
 
-  constructor(private ea:EventAggregator, private contactService:ContactService, private logger:Logger, private valid:Validation) { //
+  constructor(private ea:EventAggregator, private contactService:ContactService,
+              private logger:Logger, private valid:Validation) { //
     this.dateFormat = 'YYYY-MM-DD hh:mm a';
     this.validation = valid.on(this)
         .ensure('contact.firstName').isNotEmpty().hasMinLength(3).hasMaxLength(10)

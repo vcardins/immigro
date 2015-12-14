@@ -1,6 +1,41 @@
 import { autoinject, customElement, bindable } from 'aurelia-framework';
 import * as moment from 'moment';
 import * as Pikaday from 'pikaday';
+//import { IDateTimePicker } from 'widgets/datetimepicker';
+
+export interface IDateTimePicker {
+  field:any;
+  trigger:string;
+  bound:boolean;
+  position:string;
+  reposition:boolean;
+  container:any;
+  format:string;
+  defaultDate:Date;
+  firstDay:Number;
+  minDate:Date;
+  maxDate:Date;
+  disableWeekends:Boolean;
+  disableDayFn:Function;
+  showWeekNumber:Boolean;
+  isRTL:Boolean;
+  i18n:any;
+  yearRange:any;
+  yearSuffix:any;
+  showMonthAfterYear:Boolean;
+  numberOfMonths:Number;
+  mainCalendar:any;
+  theme:any;
+  showTime:Boolean;
+  showSeconds:Boolean;
+  use24hour:Boolean;
+  onSelect:Function;
+  onOpen:Function;
+  onClose:Function;
+  onDraw:Function;
+  model:any;
+  inputClass:string;
+}
 
 // extend: used to make deep copies of options object
 function extend(destination, source) {
@@ -49,8 +84,6 @@ export class DateTimePicker {
 
   @bindable disableDayFn:Function;
 
-  @bindable yearRange:any;
-
   @bindable showWeekNumber:Boolean = true;
 
   @bindable isRTL:Boolean = false;
@@ -66,8 +99,6 @@ export class DateTimePicker {
   @bindable numberOfMonths:Number;
 
   @bindable mainCalendar:any;
-
-  @bindable yearRange:any;
 
   @bindable theme:any;
 
@@ -108,7 +139,9 @@ export class DateTimePicker {
 
     this.field = input;
 
-    let config = {
+    var config:IDateTimePicker;
+
+    config = {
       field: this.field,
       bound: this.bound,
       format: this.format,
@@ -141,7 +174,7 @@ export class DateTimePicker {
     var picker = new Pikaday(config);
   }
 
-  modelChanged (newValue) {
+  modelChanged (newValue:any) {
     if (this.field) {
       this.field.value = !newValue ? null : moment(newValue).format(this.format);
     }

@@ -6,7 +6,7 @@ import { buildRoles, buildAccessLevels } from './AuthHelpers';
   the memory footprint for an integer
  */
 const roles:any = [
-  'banned',
+  'anon',
   'public',
   'user',
   'admin'
@@ -20,9 +20,10 @@ const roles:any = [
   'user' and 'admin' have access to the access level 'user'.
  */
 const levels:any = {
-  'public': '*',
-  'anon': ['public'],
-  'user': ['user', 'admin'],
+  //'admin': '*',
+  'anon': ['anon'],
+  'public': ['public'],
+  'user': ['user'],
   'admin': ['admin']
 };
 

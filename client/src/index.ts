@@ -1,6 +1,6 @@
 import { autoinject, Aurelia, LogManager } from 'aurelia-framework';
 import { ConsoleAppender } from 'aurelia-logging-console';
-import { ValidateCustomAttributeViewStrategy } from 'aurelia-validation';
+import { ValidationConfig, TWBootstrapViewStrategy } from 'aurelia-validation';
 import { ApplicationSettings } from 'core/Settings';
 import { LocalStorageProvider } from 'core/Providers';
 import { CSRFInterceptor, LoggerInterceptor } from 'aurelia-sails-socket-client';
@@ -41,10 +41,10 @@ export function configure(aurelia: Aurelia) {
     .feature('core/resources')
     .feature('core/auth')
     .feature('widgets')
-    .plugin('charlespockert/aurelia-bs-grid');
-    // .plugin('aurelia-validation', (config) => {
-    //   //config.useViewStrategy(ValidateCustomAttributeViewStrategy.TWBootstrapAppendToInput)
-    // });
+    //.plugin('charlespockert/aurelia-bs-grid');
+    .plugin('aurelia-validation', (config: ValidationConfig) => {
+      config.useViewStrategy((<any>TWBootstrapViewStrategy).AppendToInput)
+    });
   aurelia.start().then(a => a.setRoot('bootstrapper'));
 
 }

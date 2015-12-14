@@ -136,7 +136,7 @@
 	  return obj && obj.window === obj;
 	}
 
-	static extend (...dst: any[]) {
+	static extend2 (...dst: any[]) {
 		return this.baseExtend(dst[0], arguments[1], false);
 	}
 

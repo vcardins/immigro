@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <base href="/">
+  <head>
+    <title>Sticky Footer</title>
+    <style>
+    /* code to get this woring */
+
+      html {
+      height: 100%
+      }
+
+      body {
+        display: table;
+        border-collapse: collapse;
+        min-height: 100%;
+        width:100%;
+        _height: 100%;
+        margin: 0
+      }
+      .header {
+        display: table-row;
+      }
+      .main {
+        display: table-row;
+        height: 100%;
+      }
+      .footer {
+        display: table-row;
+      }
+      .panel {
+        display: table;
+        border-collapse: collapse;
+        min-height: 100%;
+        width: 100%;
+        _height: 100%;
+        margin: 0;
+      }
+      .wrapper {
+          display: flex;
+      }
+      .sidebar {
+          background: #ccc;
+          transition: all .1s;
+      }
+      .sidebar.collapsed {
+          transform: translateX(-100%);
+          position: absolute;
+      }
+      /* code just to make it look pretty */
+
+      html {
+        font: 1em/1.42857 'Helvetica Neue', sans-serif
+      }
+
+      .container {
+        padding: 10px 20px;
+      }
+      .header, .footer {
+        background: salmon;
+        color: #fff;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar" id="sidebar">
+          <div>SIDEBAR 1 2 3</div>
+      </div>
+      <div class="panel">
+        <div class="header">
+          <div class="container">
+            Header
+            <button onclick="document.getElementsByClassName('sidebar')[0].classList.toggle('collapsed')">Sidebar</button>
+          </div>
+        </div>
+        <div class="main">
+          <div class="container">M.</div>
+        </div>
+        <div class="footer">
+          <div class="container">Footer</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -163,13 +163,13 @@ export class AuthService {
         return this.localStorageProvider.get(this.tokenName);
     }
 
-    get customToken(identifier: string): string {
+    customToken(identifier:string):string {
         return this.localStorageProvider.get(identifier);
     }
 
     isAuthorized(accessLevel:AccessLevel, role:AccessLevel):boolean {
         role = (role || this.user.accessLevel) || this.publicUser.role;
-        return accessLevel.bitMask & role.bitMask;
+        return accessLevel.bitMask <= role.bitMask;
     }
 
     get accessLevel():any {

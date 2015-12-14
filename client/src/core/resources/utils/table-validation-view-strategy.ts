@@ -1,18 +1,16 @@
- 
 /**
  * Created by moshensky on 5/24/15.
  */
 //import {ValidateCustomAttributeViewStrategy} from 'aurelia-validation';
 // TODO: move to upper import, because it should be fixed in near commit
 
-
 import {ValidateCustomAttributeViewStrategyBase} from 'aurelia-validation';
 
 export class TableValidationViewStrategy extends ValidateCustomAttributeViewStrategyBase {
-  
-  helpBlockClass:string;
-  
-  constructor()
+
+helpBlockClass:string;
+
+  nstructor()
   {
     super();
     this.helpBlockClass = 'aurelia-validation-message';

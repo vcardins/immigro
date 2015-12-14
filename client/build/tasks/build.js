@@ -27,8 +27,7 @@ gulp.task('build-ts', function () {
       declarationFiles: false,
       noExternalResolve: true,
       emitDecoratorMetadata: true,
-      experimentalDecorators: true,
-      //typescript: Typescript
+      experimentalDecorators: true
     }));
   return tsResult.js.pipe(gulp.dest(paths.output));
 });

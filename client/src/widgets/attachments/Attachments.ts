@@ -1,19 +1,19 @@
 import { autoinject, customElement, bindable } from 'aurelia-framework';
 
 // hasClass: does an element have the css class?
-function hasClass(el, name) {
+function hasClass(el:any, name:string) {
     return new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)").test(el.className);
 }
 
 // addClass: add the css class for the element.
-function addClass(el, name) {
+function addClass(el:any, name:string) {
     if (!hasClass(el, name)) {
       el.className = el.className ? [el.className, name].join(' ') : name;
     }
 }
 
 // removeClass: remove the css class from the element.
-function removeClass(el, name) {
+function removeClass(el:any, name:string) {
     if (hasClass(el, name)) {
       var c = el.className;
       el.className = c.replace(new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)", "g"), " ").replace(/^\s\s*/, '').replace(/\s\s*$/, '');
@@ -28,14 +28,14 @@ function prettySize(bytes:number, precision:number = 1) {
 }
 
 // getGroupID: generate a unique int ID for groups.
- var getGroupID = (function(id) {
+ var getGroupID = (function(id:number) {
      return function() {
          return id++;
      };
  })(0);
 
  // getUniqueID: generate a unique int ID for files
- var getUniqueID = (function(id) {
+ var getUniqueID = (function(id:number) {
      return function() {
          return id++;
      };
@@ -72,12 +72,12 @@ export class Attachments {
    * [maxFileSize description]
    * @type {number}
    */
-  @bindable maxFileSize:number = 1;
+  @bindable maxFileSize:number = MAX_FILE_SIZE;
   /**
    * [totalFilesSize description]
    * @type {number}
    */
-  @bindable totalFilesSize:number = 100;
+  @bindable totalFilesSize:number = TOTAL_FILES_SIZE;
 
   @bindable attachLabel:string = null;
   /**
@@ -107,8 +107,8 @@ export class Attachments {
    * @return {[type]} [description]
    */
   attached() {
-    this.maxFileSize = parseFloat(this.maxFileSize || MAX_FILE_SIZE) * MB;
-    this.totalFilesSize = parseFloat(this.totalFilesSize || TOTAL_FILES_SIZE) * MB;
+    this.maxFileSize = this.maxFileSize * MB;
+    this.totalFilesSize = this.totalFilesSize * MB;
     this.files = [];
     let filesUpload = this.element.querySelector('input[type="file"]');
     if (this.multiple) {
@@ -138,7 +138,7 @@ export class Attachments {
    * [handleDragEnter description]
    * @param {[type]} e [description]
    */
-  handleDragEnter(e):void {
+  handleDragEnter(e:Event):void {
     e.stopPropagation();
     e.preventDefault();
     this.clearError();
@@ -151,7 +151,7 @@ export class Attachments {
    * [handleDragLeave description]
    * @param {[type]} e [description]
    */
-  handleDragLeave(e):void {
+  handleDragLeave(e:Event):void {
     if (this.dragClass) {
       removeClass(this.dropbox, this.dragClass);
     }
@@ -161,7 +161,7 @@ export class Attachments {
    * [handleDragOver description]
    * @param {[type]} e [description]
    */
-  handleDragOver(e):void {
+  handleDragOver(e:Event):void {
     e.stopPropagation();
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
@@ -198,7 +198,7 @@ export class Attachments {
  * @param {[type]} files   [description]
  * @param {[type]} groupID [description]
  */
- private setupCustomFileProperties(files, groupID):void {
+ private setupCustomFileProperties(files:Array<File>, groupID:any):void {
      for (var i = 0; i < files.length; i++) {
          var file = files[i];
          file.extra = {

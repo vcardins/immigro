@@ -1,8 +1,8 @@
 import { Aurelia, autoinject, ObserverLocator } from 'aurelia-framework';
 import { Router} from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { AuthResult, AuthService } from 'core/Services';
-import { Logger } from 'core/Services';
+import { AuthResult, AuthService } from './core/Services';
+import { Logger } from './core/Services';
 import AppRouterConfig from './app.router.config';
 import Layout from './layout';
 

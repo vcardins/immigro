@@ -14,25 +14,25 @@ export class LocalStorageProvider {
 	appSettings: IApplicationSettings;
 	storage:IStorage;
 
-    constructor(appSettings: ApplicationSettings) {
-      this.appSettings = appSettings.instance;
-			switch (this.appSettings.localStorageMode) {
-				case LocalStorageTypes.Local:
-					this.storage = window.localStorage;
-					if (!('localStorage' in window && window['localStorage'] !== null)) {
-						console.warn('Warning: Local Storage is disabled or unavailable');
-					}
-					break;
-				case LocalStorageTypes.Session:
-					this.storage = window.sessionStorage;
-					if (!('sessionStorage' in window && window['sessionStorage'] !== null)) {
-						console.warn('Warning: Session Storage is disabled or unavailable. Will not work correctly.');
-					}
+  constructor(appSettings: ApplicationSettings) {
+    this.appSettings = appSettings.instance;
+		switch (this.appSettings.localStorageMode) {
+			case LocalStorageTypes.Local:
+				this.storage = window.localStorage;
+				if (!('localStorage' in window && window['localStorage'] !== null)) {
+					console.warn('Warning: Local Storage is disabled or unavailable');
+				}
 				break;
-			}
-    }
+			case LocalStorageTypes.Session:
+				this.storage = window.sessionStorage;
+				if (!('sessionStorage' in window && window['sessionStorage'] !== null)) {
+					console.warn('Warning: Session Storage is disabled or unavailable. Will not work correctly.');
+				}
+			break;
+		}
+  }
 
-    get(key:string):any{
+  get(key:string):any{
 		return this.storage.getItem(key);
 	}
 

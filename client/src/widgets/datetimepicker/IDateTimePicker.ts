@@ -1,0 +1,32 @@
+export interface IDateTimePicker {
+  trigger:any;
+  bound:boolean;
+  position:string;
+  reposition:boolean;
+  container:any;
+  format:string;
+  defaultDate:Date;
+  firstDay:Number;
+  minDate:Date;
+  maxDate:Date;
+  disableWeekends:Boolean;
+  disableDayFn:Function;
+  showWeekNumber:Boolean;
+  isRTL:Boolean;
+  i18n:any;
+  yearRange:any;
+  yearSuffix:any;
+  showMonthAfterYear:Boolean;
+  numberOfMonths:Number;
+  mainCalendar:any;
+  theme:any;
+  showTime:Boolean;
+  showSeconds:Boolean;
+  use24hour:Boolean;
+  onSelect:Function;
+  onOpen:Function;
+  onClose:Function;
+  onDraw:Function;
+  model:any;
+  inputClass:string;
+}

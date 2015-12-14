@@ -24,24 +24,26 @@ export class AuthorizeStep {
    * @param  {Function} next           [description]
    * @return {[type]}                  [description]
    */
-  run(routingContext, next) {
+  run(routingContext:any, next:any) {
 
     let isAuthenticated = this.authService.isAuthenticated;
-    let route = routingContext.nextInstruction.config;
-    let level = this.authService.accessLevel;
+    let route = routingContext.config;
+    let userAccessLevel = this.authService.accessLevel;
     let routeBitMask = route.access ? route.access.bitMask : accessLevels.public.bitMask;
 
-    if (!isAuthenticated && (routeBitMask > level.bitMask)) {
+    if (!isAuthenticated && (routeBitMask > userAccessLevel.bitMask)) {
       return next.cancel(new Redirect(this.appSettings.loginRoute));
     }
 
-    if ( ((route.name == this.appSettings.loginRoute) && isAuthenticated) || !(routeBitMask & level.bitMask) ) {
+    if ( ((route.name == this.appSettings.loginRoute) && isAuthenticated) || (routeBitMask > userAccessLevel.bitMask) ) {
       this.logger.error('Sorry, you don\'t have access to this module.');
       return next.cancel(new Redirect(this.appSettings.defaultRoute));
     }
-    if (routingContext.nextInstructions.some(i => i.config.auth) && !isAuthenticated) {
+
+    if (routingContext.getAllInstructions().some(i => i.config.auth) && !isAuthenticated) {
       return next.cancel(new Redirect(this.appSettings.loginRoute));
     }
+
     return next();
   }
 
