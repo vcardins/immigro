@@ -19,7 +19,7 @@ export interface ISignalRSettings {
   id: string;
   logging: boolean;
   messageId: string;
-  url: string;
+  host: string;
 }
 
 export interface IApplicationSettings {

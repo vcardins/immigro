@@ -10,13 +10,14 @@ let configBase = {
 	api : {
 		url: '/',
 		clientId:'immigro',
+		loginUrl:'token',
 		clientSecret:'#$%ˆ&**()*()*)_)'
 	}
 };
-
+//http://localhost:1340/
 let configForDevelopment = {
-	api : { url: 'http://localhost:1340/' },
-	signalR : { url: 'http://localhost:1340/', logging :true },
+	api : { url: 'http://apistaging.techsapp.com' },
+	signalR : { host: 'http://apistaging.techsapp.com', logging :true },
 	isInDebugMode: true,
 	providers: {
 		google: {
@@ -34,7 +35,7 @@ let configForDevelopment = {
 
 let configForProduction = {
 	api : { url: 'http://localhost:9999/' },
-	signalR : { url: 'http://localhost:1340/', logging :false },
+	signalR : { host: 'http://localhost:1340', logging :false },
 	isInDebugMode: false,
 	providers: {
 		google: {

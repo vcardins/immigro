@@ -90,6 +90,7 @@ export class AuthService {
 
                     var bodyContent = `${grantContent}${userNameContent}${passwordContent}`;
 
+                    //headers: headers || { 'Content-Type': 'application/x-www-form-urlencoded' }
                     promise = new Promise<AuthResult>((resolve, reject) => {
                         self.httpClient
                             .createRequest(self.appSettings.api.loginUrl)
@@ -97,11 +98,11 @@ export class AuthService {
                             .withContent(bodyContent)
                             .send()
                             .then(result => {
+                                console.log(result);
                                 authResult.success = self.isAuth = result.isSuccess;
-                                let info = result.content;
                                 if (authResult.success) {
-                                    self.setToken(info.access_token);
-                                    self.setUser({username:info.username, id:1}, {title:info.role, bitMask: parseInt(info.bitMask)});
+                                    self.setToken(result.content.token);
+                                    self.setUser(result.content.user, result.content.accessLevel);
                                     authResult.redirect = self.appSettings.loginRedirect;
                                     authResult.userInfo = self.user;
                                 }

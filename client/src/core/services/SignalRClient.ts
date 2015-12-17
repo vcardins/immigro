@@ -1,163 +1,111 @@
-import { singleton, inject } from 'aurelia-framework';
-import * as IO from 'socket.io-client';
-import * as Promise from 'bluebird';
-import * as _ from 'lodash';
+import { singleton, autoinject } from 'aurelia-framework';
+import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
+import { Logger, AuthResult, AuthService } from 'core/Services';
 import * as uuid from 'node-uuid';
 import * as $ from 'jquery';
 import 'ms-signalr-client';
 
-@singleton()
+@autoinject
 export class SignalRClient {
 
-    ws:any;
-    url:string;
-    pendingPromises:any = {};
-    callbacks:any = {};
-    connected:boolean = false;
+    private appSettings:IApplicationSettings;
+    token:string;
+    handlers:any = {};
+    connection:any;
+    proxy:any;
+    vm:SignalRClient;
+    options:any;
+    hub:string;
+    stateConversion:any = {
+      0: 'connecting',
+      1: 'connected',
+      2: 'reconnecting',
+      4: 'disconnected'
+    };
 
-    activate() {
-      var signalrAddress = 'http://localhost:36823';
-      var hubName = 'LogHub';
+    constructor(authService:AuthService, settings:ApplicationSettings, private logger:Logger, hubName:string) {
 
-      var connection = $.hubConnection(signalrAddress);
-      var eventHubProxy = connection.createHubProxy(hubName);
-      var vm = this;
-      console.log(signalrAddress);
-      eventHubProxy.on('broadcastMessage', function(message) {
+      this.appSettings = settings.instance;
+      connection = $.hubConnection(this.appSettings.signalR.host);
+      token = authService.token;
+      proxy = connection.createHubProxy(hubName);
+      hub:hubName;
+      $.signalR.ajaxDefaults.headers = { Authorization: 'Bearer ' + token };
+      connection.logging = !!this.appSettings.signalR.logging;
 
-          vm.lastUpdate = message.datetime;
-          console.log('last update ' + vm.lastUpdate);
-
-          vm.logEvents.push(message);
-          /*if (vm.logEvents.length > 10)
-          {
-            vm.logEvents.shift();
-          }*/
-
-          vm.animator.removeClass(vm.elGridCount, 'au-attention').then(vm.animator.addClass(vm.elGridCount, 'au-attention'));
-          //vm.animator.addClass(vm.elRow, 'an-bounce');
+      connection.disconnected(function() {
+        if (authService.isAuthenticated()) {
+            setTimeout(function () { this.subscribe.bind(this); }, 1000);
+        }
       });
-      connection.start({ jsonp: true })
-      .done(function(){
-        console.log('Now connected, connection ID=' + connection.id);
-        vm.hubConnected = true;
-       })
-      .fail(function(){
-        console.log('Could not connect');
-        vm.hubConnected = false;
-        });
+      proxy.on('handleEvent', this.handleEvent.bind(this));
     }
 
-    constructor() {}
-
-    start() {
-        console.info(`SocketClient instantiating with url: ${ this.url}`);
-        // this.ws = IO.connect(this.url, {transports: ['websocket']});
-        //
-        // this.ws.on('connect', () => {
-        //     this.handleConnect();
-        // });
-        // this.ws.on('*', (eventData) => {
-        //     this.handleEvent(eventData);
-        // });
-        // this.ws.on('disconnect', () => {
-        //     this.handleDisconnect();
-        // });
+    private connectionStateChanged(state) {
+      console.info(hub + ' state change: ' + stateConversion[state.oldState]
+          + ' => ' + stateConversion[state.newState]);
     }
 
-    setOnConnectionCallback(callback) {
-        console.info(`SocketClient set onConnect callback.`);
-        // this.callbacks['connected'] = callback;
-        // if (this.connected) {
-        //     callback();
-        // }
+    listenStatesChanges(conn) {
+      console.log(conn);
+      let _self = this;
+      if (conn) {console.info(hub + ' State: ' + stateConversion[conn.state]);}
+      connection.stateChanged(connectionStateChanged);
     }
 
-    setOnDisconnectCallback(callback) {
-        console.info(`SocketClient set onDisconnect callback.`);
-        // this.callbacks[`disconnected`] = callback;
+    subscribe(options:any = {}) {
+      let self = this;
+      options.transport = options.transport || 'longPolling';
+      options.withCredentials = false;
+      connection.start(options).
+          done(self.listenStatesChanges).
+          fail(e => { self.logger.error({message:e.message, title:'SignalR Incompatible Version'}) });
     }
 
-    setEventCallback(event, callback) {
-        console.info(`SocketClient added a callback for event: ${event}.`);
-        // this.callbacks[event] = callback;
+    unSubscribe() {
+      connection.stop();
+      proxy = null;
     }
 
-    handleConnect() {
-        console.info(`SocketClient connected.`);
-        // this.connected = true;
-        // if (this.callbacks['connected']) {
-        //     console.info(`SocketClient firing onConnect callback...`);
-        //     this.callbacks['connected']();
-        // }
-        // else {
-        //     console.info(`SocketClient NO ON CONNECT CALLBACKS REGISTERED YET!`);
-        // }
+    handleEvent(e) {
+      console.info(e);
+      var eventHandlers = (handlers[e.module] || {})[e.action] || [];
+      eventHandlers.forEach(function(fn) {
+          fn(e.data, e.userId);
+      });
     }
 
-    handleEvent(eventData) {
-        console.info(`SocketClient received incoming event with data: ${JSON.stringify(eventData)}`);
-        // let req = this.pendingPromises[eventData.requestID];
-        // if (req) {
-        //     console.info(`SocketClient received response for pending promise: ${JSON.stringify(eventData.requestID)}`);
-        //     req.deferred.fulfill({
-        //         code: eventData.code,
-        //         payload: eventData.payload
-        //     });
-        //     let end = new Date().getTime();
-        //     console.info(`SocketClient request: ${eventData.requestID} took: ${end - req.start}ms`);
-        //     delete this.pendingPromises[eventData.requestID];
-        // } else {
-        //     console.info(`SocketClient received response for no promise, using callback.`);
-        //     let callback = this.callbacks[eventData.event];
-        //     if (callback) {
-        //         console.info(`SocketClient firing callback for: ${JSON.stringify(eventData)}!`);
-        //         callback({code: eventData.code, payload: eventData.payload});
-        //     }
-        //     else {
-        //         console.info(`SocketClient: No callback was registered for event: ${eventData.event}, ignoring the data...`);
-        //     }
-        // }
+    on(module:string, action:string, fn:Function) {
+      if (action === undefined) { action = '$undefined'; }
+      handlers[module] = handlers[module] || {};
+      handlers[module][action] = handlers[module][action] || [];
+      handlers[module][action].push(fn);
     }
 
-    handleDisconnect() {
-        console.info(`SocketClient disconnected.`);
-        // this.connected = false;
-        // this.cancelAllPendingPromises();
-        // if (this.callbacks['disconnected']) {
-        //     console.info(`SocketClient firing onDisconnect callback...(Remember to login on reconnect!)`);
-        //     this.callbacks['disconnected']();
-        // }
-        // else {
-        //     console.info(`SocketClient NO ON DISCONNECT CALLBACKS REGISTERED YET!`);
-        // }
+    off(module:string, action:string, fn:Function) {
+      var eventHandlers = (handlers[module] && handlers[module][action]) || [];
+      if (fn) {
+        eventHandlers.splice(eventHandlers.indexOf(fn), 1);
+      } else {
+        if (eventHandlers[module]) {
+            eventHandlers[module] = [];
+        }
+      }
     }
 
-    send(request) {
-        console.info(`SocketClient sending the request: ${JSON.stringify(request)} over the wire...`);
-        //this.ws.emit('*', request);
-    }
+    invoke () {
+      let len = arguments.length;
+      let args = Array.prototype.slice.call(arguments);
+      let callback;
 
-    makeRequest(requestEvent, payload) {
-        console.info(`SocketClient: building request with payload: ${JSON.stringify(payload)}`);
-        // let requestID = uuid.v4();
-        // let deferred = Promise.pending();
-        // this.pendingPromises[requestID] = {deferred: deferred, start: new Date().getTime()};
-        // this.send({
-        //     requestID: requestID,
-        //     request: requestEvent,
-        //     payload: payload
-        // });
-        // return deferred.promise;
-    }
+      if (len > 1) {
+        callback = args.pop();
+      }
 
-    cancelAllPendingPromises() {
-        console.info(`SocketClient cancelling all pending promises...`);
-        // _.forEach(this.pendingPromises, (p) => {
-        //     p.deferred.reject({
-        //         error: 'Disconnected or timeout.'
-        //     });
-        // });
+      proxy.invoke.apply(proxy, args).done(result => {
+        if (callback) {
+          callback(result);
+        }
+      });
     }
-
 }
