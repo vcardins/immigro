@@ -10,17 +10,18 @@ let configBase = {
 	api : {
 		url: '/',
 		clientId:'immigro',
-		clientSecret:'#$%ˆ&**()*()*)_)'		
-	}   
+		clientSecret:'#$%ˆ&**()*()*)_)'
+	}
 };
 
 let configForDevelopment = {
 	api : { url: 'http://localhost:1340/' },
+	signalR : { url: 'http://localhost:1340/', logging :true },
 	isInDebugMode: true,
 	providers: {
 		google: {
 			clientId: '239531826023-ibk10mb9p7ull54j55a61og5lvnjrff6.apps.googleusercontent.com'
-		} 
+		}
 		,
 		linkedin:{
 			clientId:'778mif8zyqbei7'
@@ -31,13 +32,14 @@ let configForDevelopment = {
 	}
 };
 
-let configForProduction = {	
+let configForProduction = {
 	api : { url: 'http://localhost:9999/' },
+	signalR : { url: 'http://localhost:1340/', logging :false },
 	isInDebugMode: false,
 	providers: {
 		google: {
 			clientId: '239531826023-3ludu3934rmcra3oqscc1gid3l9o497i.apps.googleusercontent.com'
-		} 
+		}
 		,
 		linkedin:{
 			clientId:'7561959vdub4x1'
@@ -50,6 +52,6 @@ let configForProduction = {
 };
 
 let configEnv = (window.location.hostname==='localhost' ? configForDevelopment : configForProduction);
-const config:any = Utils.merge(configBase, configEnv); 
+const config:any = Utils.merge(configBase, configEnv);
 
 export { config as default };

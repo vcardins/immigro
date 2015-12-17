@@ -15,6 +15,13 @@ export interface IApiSettings {
   grantType:  string;
 }
 
+export interface ISignalRSettings {
+  id: string;
+  logging: boolean;
+  messageId: string;
+  url: string;
+}
+
 export interface IApplicationSettings {
   title:  string;
   description:  string;
@@ -25,6 +32,7 @@ export interface IApplicationSettings {
   lockScreenTimeout:number;
   playSounds : boolean;
   api:IApiSettings;
+  signalR:ISignalRSettings;
   localStorageMode: Enums.LocalStorageTypes,
   authenticationMode: Enums.AuthenticationTypes,
   authorizationScope:string;
@@ -75,7 +83,7 @@ export class ApplicationSettings {
       version: '',
       year: ((new Date()).getFullYear()),
       playSounds:false,
-      lockScreenTimeout:1,            
+      lockScreenTimeout:1,
       defaultRoute: '',
       api : {
         url: '/',

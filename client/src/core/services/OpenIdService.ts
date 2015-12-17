@@ -3,7 +3,6 @@ import { IApplicationSettings, ApplicationSettings } from 'core/Settings';
 import { HttpClient } from 'aurelia-http-client';
 import { Base64 } from 'core/helpers/Base64';
 
-
 export class AccessTokenRequestResult {
     success: boolean = false;
     errorText: string = '';
@@ -66,12 +65,12 @@ export class OpenIdService {
                 .withContent(bodyContent)
                 .send()
                 .then(response => {
-                    if (response.isSuccess) {                        
+                    if (response.isSuccess) {
                         var loginResponse = JSON.parse(response.response);
                         loginResult.token = loginResponse.access_token;
                         loginResult.success = true;
                         resolve(loginResult);
-                    } else {                        
+                    } else {
                         var errorResponse = JSON.parse(response.response);
                         loginResult.success = false;
                         loginResult.errorText = errorResponse;
