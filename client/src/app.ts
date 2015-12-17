@@ -1,7 +1,7 @@
 import { Aurelia, autoinject, ObserverLocator } from 'aurelia-framework';
 import { Router} from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { AuthResult, AuthService } from './core/Services';
+import { AuthResult, AuthService, SignalRClient } from './core/Services';
 import { Logger } from './core/Services';
 import AppRouterConfig from './app.router.config';
 import Layout from './layout';
@@ -24,7 +24,8 @@ export class App {
         private ea: EventAggregator,
         public observerLocator: ObserverLocator,
         private logger:Logger,
-        private layout:Layout
+        private layout:Layout,
+        private liveUpdate:SignalRClient
     ) {
     this.router = router;
     this.logger = logger;
@@ -33,6 +34,7 @@ export class App {
     this.ea = ea;
     this.aurelia = aurelia;
     this.layout = layout;
+    this.liveUpdate = liveUpdate;
   }
 
   activate(){
@@ -67,6 +69,8 @@ export class App {
 
     this.obsAuth = this.observerLocator.getObserver(this, 'authStatusUpdate');
     this.obsAuth.subscribe(this.observeAuthStatus.bind(this));
+
+    this.liveUpdate.activate();
   }
 
   observeSidebarState() {}

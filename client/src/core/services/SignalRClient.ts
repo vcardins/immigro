@@ -3,6 +3,8 @@ import * as IO from 'socket.io-client';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as uuid from 'node-uuid';
+import * as $ from 'jquery';
+import 'ms-signalr-client';
 
 @singleton()
 export class SignalRClient {
@@ -12,6 +14,39 @@ export class SignalRClient {
     pendingPromises:any = {};
     callbacks:any = {};
     connected:boolean = false;
+
+    activate() {
+      var signalrAddress = 'http://localhost:36823';
+      var hubName = 'LogHub';
+
+      var connection = $.hubConnection(signalrAddress);
+      var eventHubProxy = connection.createHubProxy(hubName);
+      var vm = this;
+      console.log(signalrAddress);
+      eventHubProxy.on('broadcastMessage', function(message) {
+
+          vm.lastUpdate = message.datetime;
+          console.log('last update ' + vm.lastUpdate);
+
+          vm.logEvents.push(message);
+          /*if (vm.logEvents.length > 10)
+          {
+            vm.logEvents.shift();
+          }*/
+
+          vm.animator.removeClass(vm.elGridCount, 'au-attention').then(vm.animator.addClass(vm.elGridCount, 'au-attention'));
+          //vm.animator.addClass(vm.elRow, 'an-bounce');
+      });
+      connection.start({ jsonp: true })
+      .done(function(){
+        console.log('Now connected, connection ID=' + connection.id);
+        vm.hubConnected = true;
+       })
+      .fail(function(){
+        console.log('Could not connect');
+        vm.hubConnected = false;
+        });
+    }
 
     constructor() {}
 

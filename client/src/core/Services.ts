@@ -5,3 +5,4 @@ export * from 'core/services/DataProvider';
 export * from 'core/services/JsonDataProvider';
 export * from 'core/auth/AuthService';
 export * from 'core/auth/UserService';
+export * from 'core/services/SignalRClient';
